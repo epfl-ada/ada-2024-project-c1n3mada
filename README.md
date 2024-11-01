@@ -56,7 +56,33 @@ XXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXX
 
 ## Proposed timeline
-XXXXXXXXXXXXX
+The following timeline provides an overview of the project implementation.
+```
+**Topic decision**  — *Deadline: 28.10.2024*
+  - Collect ideas and note preferences for the global project idea
+
+**Define the research questions and the global structure**  — *Deadline: 02.11.2024*
+  - Define the precise research questions for the chosen project
+  - Define the additional datasets and their use
+  - Think about the implementation methods
+
+**Data pre-processing**  — *Deadline: 10.11.2024*
+  - Play around with the datasets and clean them accordingly
+
+**Milestone 2**  — *Deadline: 15.11.2024*
+  - Complete the ReadMe with all the specific implementation details
+
+**Implementation of research questions**  — *Deadline: 08.12.2024*
+  - Implement the data analysis based on the research questions
+
+**Implementation of the overall story**  — *Deadline: 15.12.2024*
+  - Implement the data story and put all the found results together
+
+**Code cleaning and final details**  — *Deadline: 20.12.2024*
+  - Clean the code
+  - Finalise the ReadMe with the needed elements to hand-in
+  - Fix some last details 
+```
 
 ## Organization within the team
 XXXXXXXXXXXXXXXXXXX
