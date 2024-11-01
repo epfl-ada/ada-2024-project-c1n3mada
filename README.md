@@ -57,7 +57,7 @@ XXXXXXXXXXXXXXXXXXX
 
 ## Proposed timeline
 The following timeline provides an overview of the project implementation.
-```
+```text
 **Topic decision**  — *Deadline: 28.10.2024*
   - Collect ideas and note preferences for the global project idea
 
