@@ -14,15 +14,18 @@ Together they form the group **C1n3mada**.
 
 ## Table of contents:
 
-- [Abstract](#abstract)
-- [Setup](#setup)
-- [Research Questions](#research-questions)
-- [Proposed additional datasets](#proposed-additional-datasets)
-- [Methods](#methods)
-- [Proposed timeline](#proposed-timeline)
-- [Organization within the team](#organization-within-the-team)
-- [Files](#files)
-- [Contribution](#contribution)
+- [Project milestone 2 C1n3mada](#project-milestone-2-c1n3mada)
+  - [Table of contents:](#table-of-contents)
+  - [Abstract](#abstract)
+  - [Setup](#setup)
+    - [Pre-requisites](#pre-requisites)
+  - [Research questions](#research-questions)
+  - [Proposed additional datasets](#proposed-additional-datasets)
+  - [Methods](#methods)
+  - [Proposed timeline](#proposed-timeline)
+  - [Organization within the team](#organization-within-the-team)
+  - [Files](#files)
+  - [Contribution](#contribution)
 
 ## Abstract
 XXXXXXXXXXXXXXXXXXXXXXX
@@ -103,7 +106,7 @@ This repository is structured the following way:
 The `file.ipynb` contains all the tasks as well as their implementation and results.
 
 ## Contribution
-probabyl remoooooooooooove
+probably remoooooooooooove
 All authors of this repository have worked together on the homework.
 
 
