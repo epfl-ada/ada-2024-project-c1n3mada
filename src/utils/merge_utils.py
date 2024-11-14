@@ -1,5 +1,5 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 
 def merge_cmu_tmdb_data(df_movies, df_tmdb):
