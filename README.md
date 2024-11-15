@@ -55,8 +55,6 @@ ada-2024-project-c1n3mada/
     ├── processed/                         # Directory containing data that has been processed
        ├── movies_processed.csv                # File containing the processed movies dataset used for the analysis
 ├── notebooks/                         # Directory containing several notebooks used for data pre-processing or analysis
-    ├── analysis_inflation.ipynb           # Jupyter notebook performing the inflation correction on the data
-    ├── analysis_merging.ipynb             # Jupyter notebook performing the datasets merging
     ├── data_preparation.ipynb             # Jupyter notebook performing the whole data pre-processing (including the datasets merging)
     ├── initial_analysis.ipynb             # Jupyter notebook performing some initial analysis on the data
     ├── Q1.ipynb                           # Jupyter notebook containing the implementation of movie 1
