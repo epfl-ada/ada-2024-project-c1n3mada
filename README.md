@@ -193,4 +193,8 @@ The following table defines the internal milestones up until project milestone 3
 | README                           | Céline              | 20.12.2024    |
 
 ## Questions for TAs
-XXXXXXXXXXXXXX
+- **Implementation Modularity:** Should we aim for modular implementation with separate scripts for each functions then invoke them in the notebook, or would integrating all analyses into a single notebook be more effective for the final submission?
+- **Plot Styling:** How critical is it to maintain a consistent style for all plots across different research questions? Are there specific guidelines or preferences for plot standardization?
+- **Creative Presentation:** We are presenting our research questions as “movies.” Do you have any feedback or suggestions to enhance this creative approach, or is it suitable as is?
+- **Actors’ Influence:** If we decide not to analyze actors as a standalone research question, can we include an actor-related graph as a supplementary visualization and provide a brief interpretation alongside it?
+- **Depth of Analysis:** Is the current level of analysis sufficient for the scope of the project, or should we delve into more detailed and granular analyses for each research question? (if yes do you have specific suggestions?)
