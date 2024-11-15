@@ -109,7 +109,7 @@ The [TMDB dataset](https://www.kaggle.com/datasets/rounakbanik/the-movies-datase
 
 ## Methods
 
-### Data and pre-processing
+### Data merging and pre-processing
 
 Initially, all the different datasets are cleaned individually.
 - CMU dataset: The numeric fields are converted to appropriate data types. Data fields are standardised to datetime format. The structure fields (languages, countries, genres) are parsed.
