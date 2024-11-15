@@ -55,6 +55,8 @@ ada-2024-project-c1n3mada/
     ├── processed/                         # Directory containing data that has been processed
        ├── movies_processed.csv                # File containing the processed movies dataset used for the analysis
 ├── notebooks/                         # Directory containing several notebooks used for data pre-processing or analysis
+    ├── analysis_inflation.ipynb           # Jupyter notebook performing the inflation correction on the data
+    ├── analysis_merging.ipynb             # Jupyter notebook performing the datasets merging
     ├── data_preparation.ipynb             # Jupyter notebook performing the whole data pre-processing (including the datasets merging)
     ├── initial_analysis.ipynb             # Jupyter notebook performing some initial analysis on the data
     ├── Q1.ipynb                           # Jupyter notebook containing the implementation of movie 1
@@ -111,7 +113,7 @@ The [TMDB dataset](https://www.kaggle.com/datasets/rounakbanik/the-movies-datase
 
 Initially, all the different datasets are cleaned individually.
 - CMU dataset: The numeric fields are converted to appropriate data types. Data fields are standardised to datetime format. The structure fields (languages, countries, genres) are parsed.
-- IBDb dataset: Currently, no specific pre-processing is applied.
+- IMDb dataset: Currently, no specific pre-processing is applied.
 - TMDB dataset: The date components (year, month, day) are extracted. The financial fields are converted to numeric format. Zero values in the budget and revenue columns are replaced by NaN.
 
 After this first pre-processing step, the three datasets are merged. This happens in two steps.
@@ -127,16 +129,19 @@ At the end of the data pre-processing, some final checks are performed. There sh
 The data resulting from the pre-processing described above is saved as `movies_processed.csv` and used for the analysis.
 
 
+### Implementation of the research questions
 
+This part provides an overview of the different methods that are used or will be used to implement the analysis based on the different research questions. Some methods may be added in the future. Descriptions of the methods can also be found in the Jupyter notebook `results.ipynb`. 
 
+**Movie 1:** General descriptive statistics are used to summarise the data. Histograms visualize the distribution of IMDb ratings. Bar plots display the number of movies per genre and scatter plots explore the relationship between IMDb ratings and box office revenue. In order to determine the correlation between the rating and the box office revenue, Pearson and Spearman correlation coefficients are used and the correlation is visualised in a heatmap. Additionally, the linear regression outputs are analysed and the regression line is plotted. A joint plot combines several methods to visualise the relationship between the ratings and the box office revenue. 
 
+**Movie 2:** For the initial exploration the unique country and language names were extracted and some exploratory prints were performed. Only the first country and language are taken since they are considered as the main ones. Including all the countries and languages would likely give them too much importance compared to the main ones. The most common countries and languages are plotted in a bar chart. To investigate the influence of the language, the languages with the highest average box office revenue are plotted in a bar chart. Regression analysis as well as ANOVA are performed. The same methods are used to analyse the influence of the country. A correlation analysis, along with regression and ANOVA, is used to determine the relationship between language and country. To estimate the influence of multilingual movies ANOVA is performed.
 
+**Movie 3:** Some descriptive statistics, along with bar plots, are used to determine the average and median revenue per genre. To analyse the distribution of revenues within each genre, statistics such as the interquartile range, variance, and skewness are used. The visualisations are done with box plots and violin plots. A line plot is used to display the change in revenue per genre over time. Pearson and Spearman correlation coefficients are also used.
 
+**Movie 4:** Bar plots are used to display the directors with the highest box office revenues, as well as those with the most movies and the best average revenue per movie. Some statistical methods will also be used.
 
-
-
-
-
+**Movie 5:** A bar plot is used to explore the revenues per season, whereas a scatter plot displays the movie runtimes versus the revenues per season. A heatmap, along with a facet grid, is used to analyse the revenue based on genre and season. A regression is performed to fit the runtime with the revenue per season. A pivot table shows genre popularity over time. ANOVA is performed to analyse the influence of the season. Box plots display the distribution of revenues per season and per genre.
 
 
 ## Proposed timeline
@@ -191,7 +196,3 @@ The following table defines the internal milestones up until project milestone 3
 
 ## Questions for TAs
 XXXXXXXXXXXXXX
-
-
-
-
