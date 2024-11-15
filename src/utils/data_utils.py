@@ -1,5 +1,5 @@
+import os
 import ast
-
 import numpy as np
 import pandas as pd
 
@@ -22,6 +22,12 @@ def load_cmu_movies_data(path):
             - df_plots: Plot summaries for each movie
             - df_characters: Character and actor metadata
     """
+
+    if "MovieSummaries" not in os.listdir(path):
+        raise FileNotFoundError(
+            "MovieSummaries directory not found in specified path. Please first download the dataset from http://www.cs.cmu.edu/~ark/personas/ and extract it to the data/MovieSummaries folder."
+        )
+
     # Load Plot Summaries
     plot_summaries_file = f"{path}MovieSummaries/plot_summaries.txt"
     df_plots = pd.read_csv(
@@ -139,6 +145,12 @@ def load_tmdb_data(path):
     Returns:
         pd.DataFrame: Raw TMDB movies metadata
     """
+
+    if "TMDB" not in os.listdir(path):
+        raise FileNotFoundError(
+            "TMDB directory not found in specified path. Please first download the dataset from https://www.kaggle.com/rounakbanik/the-movies-dataset and extract it to the data/TMDB folder."
+        )
+
     tmdb_metadata_file = f"{path}TMDB/movies_metadata.csv"
     df_tmdb = pd.read_csv(tmdb_metadata_file, low_memory=False)
     return df_tmdb
@@ -196,6 +208,12 @@ def load_imdb_data(path):
             - df_title_crew: Crew information
             - df_name_basics: Personal/biographical data
     """
+
+    if "IMDB" not in os.listdir(path):
+        raise FileNotFoundError(
+            "IMDB directory not found in specified path. Please first download the dataset from https://datasets.imdbws.com and extract it to the data/IMDB folder."
+        )
+
     title_basics_file = f"{path}IMDB/title.basics.tsv.gz"
     title_ratings_file = f"{path}IMDB/title.ratings.tsv.gz"
     title_crew_file = f"{path}IMDB/title.crew.tsv.gz"
