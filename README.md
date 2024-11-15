@@ -104,6 +104,8 @@ The [IMDb dataset](https://developer.imdb.com/non-commercial-datasets/) is a com
 **TMDB** <br> 
 The [TMDB dataset](https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset) provides detailed information on movies and TV shows. Since it also contains the box office revenue, it was merged with the original CMU dataset to fill in some missing value in the latter. No new movies were added. 
 
+**Inflation data** <br>
+The [Consumer Price Index (CPI) data](https://fred.stlouisfed.org/series/CPIAUCNS) was used to adjust the movie revenue data for inflation. This ensures that all financial values are comparable to the most recent year’s dollars. The CPI data was pre-processed and used to adjust the revenue values in the dataset.
 
 ## Methods
 
