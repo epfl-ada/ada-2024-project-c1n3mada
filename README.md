@@ -100,15 +100,46 @@ This film provides insights into the influence of a movie’s release season on 
 
 
 ## Proposed additional datasets
-**IMBd** <br> 
-The [IMBd dataset](https://developer.imdb.com/non-commercial-datasets/) is a comprehensive collection of information related to movies, TV shows, and other media. It contains the IMDb user ratings for titles, offering insight into audience reception. This dataset was merged with the original CMU dataset. No new movies were added. Only those present in the CMU dataset were included. If IMDb contained a corresponding rating for a movie, it was added to the dataset. 
+**IMDb** <br> 
+The [IMDb dataset](https://developer.imdb.com/non-commercial-datasets/) is a comprehensive collection of information related to movies, TV shows, and other media. It contains the IMDb user ratings for titles, offering insight into audience reception. This dataset was merged with the original CMU dataset. No new movies were added. Only those present in the CMU dataset were included. If IMDb contained a corresponding rating for a movie, it was added to the dataset. 
 
 **TMDB** <br> 
 The [TMDB dataset](https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset) provides detailed information on movies and TV shows. Since it also contains the box office revenue, it was merged with the original CMU dataset to fill in some missing value in the latter. No new movies were added. 
 
 
 ## Methods
-XXXXXXXXXXXXXXXXXXX
+
+### Data and pre-processing
+
+Initially, all the different datasets are cleaned individually.
+- CMU dataset: The numeric fields are converted to appropriate data types. Data fields are standardised to datetime format. The structure fields (languages, countries, genres) are parsed.
+- IBDb dataset: Currently, no specific pre-processing is applied.
+- TMDB dataset: The date components (year, month, day) are extracted. The financial fields are converted to numeric format. Zero values in the budget and revenue columns are replaced by NaN.
+
+After this first pre-processing step, the three datasets are merged. This happens in two steps.
+- Merge CMU with TMDB: A left join on the movie title and release year is applied. Missing data for the box office revenue in the CMU dataset is filled with data from the TMDB dataset if available. Redundant columns are removed after the merge.
+- Merge with IMDb: The previously combined dataset is combined with IMDb information from multiple sources. Left joins are used to add title basics, ratings and crew details. The first director is extracted and used to get director details from IMDb’s name basics dataset. Redundant columns are removed to finalise the dataset.
+
+The next phase involves cleaning the merged dataset. Rows with missing values in the combined revenue column are removed. Missing values for the average rating and number of votes columns are replaced with 0 and missing values in the director column are replaced with 'unknown'.
+
+Once the cleaning is completed, an inflation adjustment is made to the dataset. This step adjusts the movie revenue data for inflation to ensure that all financial values are comparable to the most recent year’s dollars. The [Consumer Price Index (CPI) data](https://fred.stlouisfed.org/series/CPIAUCNS) is loaded and pre-processed. Movies released before the earliest available CPI data are removed. The revenue values for the remaining movies are adjusted using the CPI data, aligning them with the target year (the most recent release year). This ensures that all financial values are in current-year dollars, accounting for inflation over time.
+
+At the end of the data pre-processing, some final checks are performed. There should be no negative revenues and no future release dates. The essential columns (movie name, release year, combined revenue, inflated revenue, movie genres and average rating) should exist. The data should be complete, with no Null values. It is also verified that the revenue inflation correction has been applied correctly.
+
+The data resulting from the pre-processing described above is saved as `movies_processed.csv` and used for the analysis.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Proposed timeline
 The following timeline provides an overview of the project implementation.
