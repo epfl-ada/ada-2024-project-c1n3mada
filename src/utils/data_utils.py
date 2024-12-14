@@ -2,6 +2,7 @@ import os
 import ast
 import numpy as np
 import pandas as pd
+from typing import List, Tuple
 
 
 def load_cmu_movies_data(path):
@@ -246,3 +247,125 @@ def preprocess_imdb_data(
     """
     # Placeholder for any preprocessing steps if needed later on
     return df_title_basics, df_title_ratings, df_title_crew, df_name_basics
+
+
+# Functions for data preparation in results notebook
+
+
+def prepare_df_for_rating_analysis(df):
+    # Select relevant columns
+    df_rating = df[
+        ["movie_name", "averageRating", "inflated_revenue", "numVotes", "movie_genres"]
+    ].copy()
+    # Drop missing values and filter by votes > 0
+    df_rating.dropna(
+        subset=["averageRating", "inflated_revenue", "numVotes"], inplace=True
+    )
+    df_rating = df_rating[df_rating.numVotes > 0]
+    # Remove duplicates
+    df_rating.drop_duplicates(inplace=True)
+    # Split genres
+    df_rating["genres_list"] = df_rating["movie_genres"].apply(
+        lambda x: [g[1] for g in eval(x)]
+    )
+    return df_rating
+
+
+# Data Cleaning
+def clean_dataframes(
+    df_country: pd.DataFrame,
+    df_language: pd.DataFrame,
+    df_country_language: pd.DataFrame,
+) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Clean all dataframes by removing NaN values, empty lists and duplicates."""
+
+    # Remove NaN values
+    df_country = df_country.dropna()
+    df_language = df_language.dropna()
+    df_country_language = df_country_language.dropna()
+
+    # Remove empty lists
+    df_country = remove_empty_lists(df_country, "movie_countries")
+    df_language = remove_empty_lists(df_language, "movie_languages")
+    df_country_language = remove_empty_lists_combined(df_country_language)
+
+    # Remove duplicates
+    df_country = df_country.drop_duplicates()
+    df_language = df_language.drop_duplicates()
+    df_country_language = df_country_language.drop_duplicates()
+
+    return df_country, df_language, df_country_language
+
+
+def remove_empty_lists(df: pd.DataFrame, column: str) -> pd.DataFrame:
+    """Remove rows where specified column contains empty lists."""
+    return df[df[column].apply(lambda x: len(ast.literal_eval(x)) > 0)]
+
+
+def remove_empty_lists_combined(df: pd.DataFrame) -> pd.DataFrame:
+    """Remove rows where either countries or languages lists are empty."""
+    return df[
+        df["movie_countries"].apply(lambda x: len(ast.literal_eval(x)) > 0)
+        & df["movie_languages"].apply(lambda x: len(ast.literal_eval(x)) > 0)
+    ]
+
+
+def prepare_director_data(
+    df: pd.DataFrame,
+    columns: List[str] = ["director", "inflated_revenue", "release_year", "movie_name"],
+) -> pd.DataFrame:
+    df_dir = df[columns].copy()
+    df_dir = df_dir[df_dir["director"] != "Unknown"]
+    df_dir.drop_duplicates(inplace=True)
+
+    return df_dir
+
+
+# Data prepration for seasonal analysis
+
+
+def prepare_seasonal_data(
+    df: pd.DataFrame,
+    columns: List[str] = [
+        "movie_release_date",
+        "inflated_revenue",
+        "release_day",
+        "release_month",
+        "release_year",
+        "movie_genres",
+        "movie_runtime",
+    ],
+) -> pd.DataFrame:
+    """Prepare movie data for seasonal analysis."""
+    # Select columns
+    df_season = df[columns].copy()
+
+    # Handle missing values
+    df_season = df_season.dropna(subset=["inflated_revenue", "movie_runtime"])
+
+    # Add season column
+    df_season["season"] = df_season["release_month"].apply(assign_season)
+
+    # Convert numeric columns
+    df_season["inflated_revenue"] = pd.to_numeric(df_season["inflated_revenue"])
+    df_season["movie_runtime"] = pd.to_numeric(df_season["movie_runtime"])
+
+    # Add log revenue
+    df_season["log_revenue"] = np.log10(df_season["inflated_revenue"])
+
+    return df_season
+
+
+def assign_season(month: int) -> str:
+    """Assign season based on month number."""
+    seasons = {
+        (12, 1, 2): "Winter",
+        (3, 4, 5): "Spring",
+        (6, 7, 8): "Summer",
+        (9, 10, 11): "Fall",
+    }
+
+    for months, season in seasons.items():
+        if month in months:
+            return season
+    return np.nan
