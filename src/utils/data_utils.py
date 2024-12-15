@@ -271,6 +271,30 @@ def prepare_df_for_rating_analysis(df):
     return df_rating
 
 
+def prepare_df_for_genre_analysis(df):
+    # select relevant columns
+    df_genres = df[
+        ["movie_name", "movie_genres", "inflated_revenue", "release_year"]
+    ].copy()
+    # drop missing values
+    df_genres.dropna(inplace=True)
+    # remove duplicates
+    df_genres.drop_duplicates(inplace=True)
+    # split genres
+    df_genres["genres_list"] = df_genres["movie_genres"].apply(
+        lambda x: [g[1] for g in eval(x)]
+    )
+    # drop movies with no genres
+    df_genres = df_genres[df_genres["genres_list"].apply(lambda x: len(x) > 0)]
+    # drop column movie_genres
+    df_genres.drop(columns=["movie_genres"], inplace=True)
+    # add log revenue
+    df_genres["log_revenue"] = np.log10(df_genres["inflated_revenue"])
+    # convert release year to integer
+    df_genres["release_year"] = df_genres["release_year"].astype(int)
+    return df_genres
+
+
 # Data Cleaning
 def clean_dataframes(
     df_country: pd.DataFrame,
