@@ -13,6 +13,7 @@ def plot_genre_barplot(genre_counts, title="Number of Movies per Genre"):
     plt.xlabel("Genre")
     plt.ylabel("Number of Movies")
     plt.xticks(rotation=45)
+    plt.grid(axis="y", linestyle="--", alpha=0.7)
     plt.show()
 
 

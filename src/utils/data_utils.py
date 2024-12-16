@@ -284,6 +284,12 @@ def prepare_df_for_genre_analysis(df):
     df_genres["genres_list"] = df_genres["movie_genres"].apply(
         lambda x: [g[1] for g in eval(x)]
     )
+    # replace genres with "/" with 2 genres, e.g. "Action/Adventure" -> ["Action", "Adventure"]
+    df_genres["genres_list"] = df_genres["genres_list"].apply(
+        lambda x: [sub_g for g in x for sub_g in (g.split("/") if "/" in g else [g])]
+    )
+    # remove duplicates in genres list
+    df_genres["genres_list"] = df_genres["genres_list"].apply(lambda x: list(set(x)))
     # drop movies with no genres
     df_genres = df_genres[df_genres["genres_list"].apply(lambda x: len(x) > 0)]
     # drop column movie_genres
