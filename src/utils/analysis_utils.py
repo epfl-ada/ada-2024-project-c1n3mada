@@ -33,3 +33,25 @@ def extract_first_language(language_list):
 def extract_first_country(country_list):
     parsed_country_list = ast.literal_eval(country_list)
     return parsed_country_list[0][1] if len(parsed_country_list) > 0 else None
+
+
+def get_movies_with_genres(df, genres):
+    """
+    Get a list of movies that have at least one of the specified genres.
+
+    Args:
+        df (pd.DataFrame): DataFrame containing movie data
+        genres (list): List of genres to search for
+
+    Returns:
+        list: List of movie names
+    """
+    set_genres = set(genres)
+    movies = []
+    for movie_name, genre_list in zip(df["movie_name"], df["genres_list"]):
+        # make the genre_list a set
+        set_movie_genres = set(genre_list)
+        # check if the intersection is not empty
+        if set_movie_genres.intersection(set_genres):
+            movies.append(movie_name)
+    return movies
