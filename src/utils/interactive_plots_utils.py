@@ -1,4 +1,5 @@
 import numpy as np
+import itertools
 import plotly.express as px
 import plotly.graph_objs as go
 
@@ -14,7 +15,6 @@ def create_interactive_revenue_trends_over_time_heatmap(mean_revenue_pivot):
     )
 
     fig.update_layout(
-        width=1000, height=800,  
         xaxis=dict(tickangle=45),  
     )
     fig.write_html("interactive_plots/shades/revenue_trends_over_time_heatmap.html")
@@ -84,9 +84,7 @@ def create_interactive_genre_ranking_over_time_racing_barplot(mean_revenue_pivot
             'x': 0.1, 'xanchor': 'right',
             'y': -0.1,
             'yanchor': 'top'
-        }],
-        height=800,
-        width=1200,
+        }]
     )
     # create the figure
     fig = go.Figure(
@@ -103,4 +101,110 @@ def create_interactive_genre_ranking_over_time_racing_barplot(mean_revenue_pivot
         frames=frames,
     )
     fig.write_html("interactive_plots/shades/genre_ranking_over_time_racing_barplot.html")
+    fig.show()
+
+
+def create_interactive_number_of_movies_per_genre_plot(genre_counts_top20):
+    fig = px.bar(
+        x=genre_counts_top20.index,
+        y=genre_counts_top20.values,
+        title="Number of Movies per Genre",
+        labels={"x": "Genre", "y": "Number of Movies"},
+        color=genre_counts_top20.index,
+        color_discrete_sequence=px.colors.qualitative.Set2
+    )
+
+    # update layout for readability
+    fig.update_layout(
+        xaxis_tickangle=45,
+        xaxis_title="Genre",
+        yaxis_title="Number of Movies",
+        template="plotly_white",
+        bargap=0.2,
+        hovermode="x unified",
+        showlegend=False,
+    )
+
+    fig.write_html("interactive_plots/shades/number_of_movies_per_genre.html")
+    fig.show()
+
+
+def create_interactive_number_of_genres_per_movie(num_genres_distribution):
+    fig = px.bar(
+        x=num_genres_distribution.index,
+        y=num_genres_distribution.values,
+        title="Distribution of Number of Genres per Movie",
+        labels={"x": "Number of Genres", "y": "Number of Movies"},
+        color=num_genres_distribution.index.astype(str),
+        color_discrete_sequence=px.colors.qualitative.Set2
+    )
+
+    # update layout for readability and size
+    fig.update_layout(
+        xaxis_title="Number of Genres",
+        yaxis_title="Number of Movies",
+        template="plotly_white",
+        bargap=0.2,
+        hovermode="x unified",
+        showlegend=False,
+    )
+
+    fig.write_html("interactive_plots/shades/number_of_genres_per_movie.html")
+    fig.show()   
+
+
+def create_interactive_top_20_genres_with_highest_revenue(mean_genre_revenue):
+    top_genres = mean_genre_revenue.head(20)
+    fig = go.Figure()
+    fig.add_trace(
+        go.Bar(
+            x=top_genres.index,
+            y=top_genres["mean"],
+            text=top_genres["count"],
+            textposition="outside",
+            marker_color=list(
+                itertools.islice(
+                    itertools.cycle(px.colors.qualitative.Set2), len(top_genres)
+                )
+            ),
+            hovertemplate="<b>%{x}</b><br>"
+            + "Average Revenue: %{y}<br>"
+            + "Number of Movies: %{text}",
+        )
+    )
+    # update layout
+    fig.update_layout(
+        title=f"Top 20 Genres with Highest Average Box Office Revenue",
+        xaxis_title="Genre",
+        yaxis_title="Average Box Office Revenue",
+        yaxis=dict(showgrid=True, gridcolor="lightgrey"),
+        template="plotly_white",
+    )
+
+    fig.write_html("interactive_plots/shades/interactive_top_20_genres_with_highest_revenue.html")
+    fig.show()
+
+
+def create_interactive_top_20_genres_with_highest_revenue_2(mean_genre_revenue):
+    top_n = 20
+    top_genres = mean_genre_revenue.head(top_n)
+    fig = px.bar(
+        top_genres,
+        x=top_genres.index,
+        y="mean",
+        title=f"Average Revenue per Genre (Top {top_n} Most Common Genres)",
+        labels={"x": "Genre", "mean": "Average Box Office Revenue"},
+        color=top_genres.index,  
+        color_discrete_sequence=px.colors.qualitative.Set2 
+    )
+    # update layout
+    fig.update_layout(
+        xaxis_title="Genre",
+        yaxis_title="Average Box Office Revenue",
+        xaxis_tickangle=45,
+        template="plotly_white",
+        showlegend=False
+    )
+
+    fig.write_html("interactive_plots/shades/interactive_top_20_genres_with_highest_revenue_2.html")
     fig.show()    
