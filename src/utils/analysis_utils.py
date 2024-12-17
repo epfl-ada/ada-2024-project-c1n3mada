@@ -55,3 +55,34 @@ def get_movies_with_genres(df, genres):
         if set_movie_genres.intersection(set_genres):
             movies.append(movie_name)
     return movies
+
+
+def calculate_count_revenue_correlation(mean_revenue_pivot, genre_year_pivot):
+    correlation_results = []
+    genres = genre_year_pivot.columns
+    for genre in genres:
+        # create a combined dataframe
+        combined_df = pd.DataFrame({
+            'mean_revenue': mean_revenue_pivot[genre],
+            'movie_count': genre_year_pivot[genre]
+        })
+        
+        # drop rows where mean revenue or count is 0
+        filtered_df = combined_df[(combined_df['mean_revenue'] > 0) & (combined_df['movie_count'] > 0)]
+        
+        if not filtered_df.empty:
+            # calculate Pearson and Spearman correlations
+            pearson_corr, _ = pearsonr(filtered_df['mean_revenue'], filtered_df['movie_count'])
+            spearman_corr, _ = spearmanr(filtered_df['mean_revenue'], filtered_df['movie_count'])
+            
+            # append results to the list
+            correlation_results.append({
+                'Genre': genre,
+                'Pearson': pearson_corr,
+                'Spearman': spearman_corr
+            })
+
+    # convert the list to a dataframe
+    correlation_df = pd.DataFrame(correlation_results)
+    correlation_df = correlation_df.set_index("Genre").sort_index()
+    return correlation_df

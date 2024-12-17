@@ -73,7 +73,7 @@ def plot_correlation_heatmap(df, cols, title="Correlation Matrix"):
 def plot_genre_correlation_bars(
     genre_corrs, title="Correlation between IMDb Ratings and Revenue by Genre"
 ):
-    fig, ax = plt.subplots(figsize=(12, 12))
+    fig, ax = plt.subplots(figsize=(18, 12))
     genre_corrs_sorted = genre_corrs.sort_values("Pearson", ascending=True)
     x_pearson = genre_corrs_sorted["Pearson"]
     x_spearman = genre_corrs_sorted["Spearman"]
