@@ -30,6 +30,22 @@ def extract_first_language(language_list):
     return parsed_language_list[0][1] if len(parsed_language_list) > 0 else None
 
 
+def extract_languages(language_list):
+    """
+    Extract the language names from a list of tuples
+    Args:
+        language_list (str): a string representation of a list of tuples (each tuple contains a language code and language name)
+    Returns:
+        list: a list containing only the language names
+    """
+    parsed_language_list = ast.literal_eval(language_list)
+    return [
+        item[1]
+        for item in parsed_language_list
+        if isinstance(item, tuple) and len(item) > 1
+    ]
+
+
 def extract_first_country(country_list):
     parsed_country_list = ast.literal_eval(country_list)
     return parsed_country_list[0][1] if len(parsed_country_list) > 0 else None
@@ -62,25 +78,31 @@ def calculate_count_revenue_correlation(mean_revenue_pivot, genre_year_pivot):
     genres = genre_year_pivot.columns
     for genre in genres:
         # create a combined dataframe
-        combined_df = pd.DataFrame({
-            'mean_revenue': mean_revenue_pivot[genre],
-            'movie_count': genre_year_pivot[genre]
-        })
-        
+        combined_df = pd.DataFrame(
+            {
+                "mean_revenue": mean_revenue_pivot[genre],
+                "movie_count": genre_year_pivot[genre],
+            }
+        )
+
         # drop rows where mean revenue or count is 0
-        filtered_df = combined_df[(combined_df['mean_revenue'] > 0) & (combined_df['movie_count'] > 0)]
-        
+        filtered_df = combined_df[
+            (combined_df["mean_revenue"] > 0) & (combined_df["movie_count"] > 0)
+        ]
+
         if not filtered_df.empty:
             # calculate Pearson and Spearman correlations
-            pearson_corr, _ = pearsonr(filtered_df['mean_revenue'], filtered_df['movie_count'])
-            spearman_corr, _ = spearmanr(filtered_df['mean_revenue'], filtered_df['movie_count'])
-            
+            pearson_corr, _ = pearsonr(
+                filtered_df["mean_revenue"], filtered_df["movie_count"]
+            )
+            spearman_corr, _ = spearmanr(
+                filtered_df["mean_revenue"], filtered_df["movie_count"]
+            )
+
             # append results to the list
-            correlation_results.append({
-                'Genre': genre,
-                'Pearson': pearson_corr,
-                'Spearman': spearman_corr
-            })
+            correlation_results.append(
+                {"Genre": genre, "Pearson": pearson_corr, "Spearman": spearman_corr}
+            )
 
     # convert the list to a dataframe
     correlation_df = pd.DataFrame(correlation_results)
