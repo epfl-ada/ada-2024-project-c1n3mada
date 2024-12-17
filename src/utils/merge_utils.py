@@ -41,9 +41,9 @@ def merge_cmu_tmdb_data(df_movies, df_tmdb):
     )
 
     # Create a combined revenue column
-    df_movies_merged["combined_revenue"] = df_movies_merged["revenue"].combine_first(
-        df_movies_merged["movie_box_office_revenue"]
-    )
+    df_movies_merged["combined_revenue"] = df_movies_merged[
+        "movie_box_office_revenue"
+    ].combine_first(df_movies_merged["revenue"])
 
     # Create combined release_month and release_day columns
     df_movies_merged["release_month"] = df_movies_merged[
