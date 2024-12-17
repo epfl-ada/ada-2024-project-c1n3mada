@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 def plot_genre_barplot(genre_counts, title="Number of Movies per Genre"):
     plt.figure(figsize=(12, 6))
     # use color-blind friendly palette
-    sns.barplot(x=genre_counts.index, y=genre_counts.values, palette="colorblind")
+    sns.barplot(x=genre_counts.index, y=genre_counts.values, palette="Set2")
     plt.title(title)
     plt.xlabel("Genre")
     plt.ylabel("Number of Movies")
