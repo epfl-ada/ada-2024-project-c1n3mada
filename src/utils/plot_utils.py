@@ -52,7 +52,7 @@ def plot_scatter(
     plt.figure(figsize=(12, 8))
     # use color-blind friendly palette
     plot_y = transformation(df[y]) if transformation else df[y]
-    sns.scatterplot(x=x, y=plot_y, data=df, hue=hue, alpha=alpha, palette="colorblind")
+    sns.scatterplot(x=x, y=plot_y, data=df, hue=hue, alpha=alpha, palette="Set2")
     plt.title(title)
     if xlabel:
         plt.xlabel(xlabel)

@@ -358,6 +358,50 @@ def prepare_df_country_language_extended(df_movie_country_language):
     return df_movie_country_language_extended
 
 
+def prepare_df_for_budget_analysis(df):
+    # select relevant columns
+    df_budget = df[
+        [
+            "movie_name",
+            "budget",
+            "inflated_budget",
+            "inflated_revenue",
+            "release_year",
+            "movie_genres",
+        ]
+    ].copy()
+
+    # drop missing values
+    df_budget.dropna(inplace=True)
+    # remove duplicates
+    df_budget.drop_duplicates(inplace=True)
+    # split genres
+    df_budget["genres_list"] = df_budget["movie_genres"].apply(
+        lambda x: [g[1] for g in eval(x)]
+    )
+
+    # add log revenue and log budget for better visualization and analysis
+    df_budget["log_revenue"] = np.log10(df_budget["inflated_revenue"])
+    df_budget["log_budget"] = np.log10(df_budget["inflated_budget"])
+
+    # convert release year to integer
+    df_budget["release_year"] = df_budget["release_year"].astype(int)
+
+    # remove the movies with a budget of less than 1000 (as it is likely to be noise)
+    df_budget = df_budget[df_budget["budget"] > 1000]
+
+    # drop column budget and movie_genres
+    df_budget.drop(columns=["budget"], inplace=True)
+    df_budget.drop(columns=["movie_genres"], inplace=True)
+
+    # add Return on Investment (ROI) column
+    df_budget["ROI"] = (
+        df_budget["inflated_revenue"] - df_budget["inflated_budget"]
+    ) / df_budget["inflated_budget"]
+
+    return df_budget
+
+
 # Data Cleaning
 def clean_dataframe_movie_country(df_country_language):
     """

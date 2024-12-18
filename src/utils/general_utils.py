@@ -110,4 +110,12 @@ def adjust_for_inflation(df, cpi, target_year=2016):
         axis=1,
     )
 
+    # calculate inflation-adjusted budget
+    df["inflated_budget"] = df.apply(
+        lambda x: x["budget"]
+        * target_year_cpi
+        / cpi[cpi["year"] == x["release_year"]]["CPIAUCNS"].values[0],
+        axis=1,
+    )
+
     return df
