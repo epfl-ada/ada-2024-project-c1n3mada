@@ -2,8 +2,11 @@ import os
 import numpy as np
 import plotly.express as px
 import plotly.graph_objs as go
+from plotly.subplots import make_subplots
 
-SAVE_PATH = "../c1n3mada-datastory/assets/plots/shades/"
+SAVE_PATH_SHADES = "../c1n3mada-datastory/assets/plots/shades/"
+SAVE_PATH_BUDGET = "../c1n3mada-datastory/assets/plots/budget/"
+
 
 # Interactive plots for Shades
 def create_interactive_number_of_movies_per_genre_plot(genre_counts_top20):
@@ -33,7 +36,10 @@ def create_interactive_number_of_movies_per_genre_plot(genre_counts_top20):
     )
 
     os.makedirs("interactive_plots/shades", exist_ok=True)
-    fig.write_html(f"{SAVE_PATH}number_of_movies_per_genre.html")
+    fig.write_html(
+        f"{SAVE_PATH_SHADES}number_of_movies_per_genre.html",
+        config={"toImageButtonOptions": {"filename": "number_of_movies_per_genre"}},
+    )
     fig.show()
 
 
@@ -62,7 +68,10 @@ def create_interactive_number_of_genres_per_movie(num_genres_distribution):
         showlegend=False,
     )
 
-    fig.write_html(f"{SAVE_PATH}number_of_genres_per_movie.html")
+    fig.write_html(
+        f"{SAVE_PATH_SHADES}number_of_genres_per_movie.html",
+        config={"toImageButtonOptions": {"filename": "number_of_genres_per_movie"}},
+    )
     fig.show()
 
 
@@ -101,7 +110,10 @@ def create_interactive_top_20_genres_with_highest_revenue(mean_genre_revenue):
     )
 
     fig.write_html(
-        f"{SAVE_PATH}interactive_top_20_genres_with_highest_revenue.html"
+        f"{SAVE_PATH_SHADES}interactive_top_20_genres_with_highest_revenue.html",
+        config={
+            "toImageButtonOptions": {"filename": "top_20_genres_with_highest_revenue"}
+        },
     )
     fig.show()
 
@@ -141,7 +153,10 @@ def create_interactive_top_20_genres_with_highest_revenue_2(mean_genre_revenue):
     )
 
     fig.write_html(
-        f"{SAVE_PATH}interactive_top_20_genres_with_highest_revenue_2.html"
+        f"{SAVE_PATH_SHADES}interactive_top_20_genres_with_highest_revenue_2.html",
+        config={
+            "toImageButtonOptions": {"filename": "top_20_genres_with_highest_revenue_2"}
+        },
     )
     fig.show()
 
@@ -170,7 +185,12 @@ def create_interactive_boxplots_revenue_distribution_top_20(
         showlegend=False,
     )
 
-    fig.write_html(f"{SAVE_PATH}boxplots_revenue_distribution_top_20.html")
+    fig.write_html(
+        f"{SAVE_PATH_SHADES}boxplots_revenue_distribution_top_20.html",
+        config={
+            "toImageButtonOptions": {"filename": "boxplots_revenue_distribution_top_20"}
+        },
+    )
     fig.show()
 
 
@@ -198,7 +218,10 @@ def create_interactive_boxplots_num_genres(df_genres):
         showlegend=False,
     )
 
-    fig.write_html(f"{SAVE_PATH}boxplots_num_genres.html")
+    fig.write_html(
+        f"{SAVE_PATH_SHADES}boxplots_num_genres.html",
+        config={"toImageButtonOptions": {"filename": "boxplots_num_genres"}},
+    )
     fig.show()
 
 
@@ -232,7 +255,10 @@ def create_interactive_avg_revenue_per_num_genres(sorted_avg_revenue):
         showlegend=False,
     )
 
-    fig.write_html(f"{SAVE_PATH}avg_revenue_per_num_genres.html")
+    fig.write_html(
+        f"{SAVE_PATH_SHADES}avg_revenue_per_num_genres.html",
+        config={"toImageButtonOptions": {"filename": "avg_revenue_per_num_genres"}},
+    )
     fig.show()
 
 
@@ -249,7 +275,12 @@ def create_interactive_revenue_trends_over_time_heatmap(mean_revenue_pivot):
     fig.update_layout(
         xaxis=dict(tickangle=45),
     )
-    fig.write_html(f"{SAVE_PATH}revenue_trends_over_time_heatmap.html")
+    fig.write_html(
+        f"{SAVE_PATH_SHADES}revenue_trends_over_time_heatmap.html",
+        config={
+            "toImageButtonOptions": {"filename": "revenue_trends_over_time_heatmap"}
+        },
+    )
     fig.show()
 
 
@@ -309,7 +340,7 @@ def create_interactive_genre_ranking_over_time_racing_barplot(
                         "args": [
                             [str(decade)],
                             {
-                                "frame": {"duration": 3000, "redraw": True},
+                                "frame": {"duration": 2000, "redraw": True},
                                 "mode": "immediate",
                             },
                         ],
@@ -328,7 +359,7 @@ def create_interactive_genre_ranking_over_time_racing_barplot(
                         "args": [
                             None,
                             {
-                                "frame": {"duration": 800, "redraw": True},
+                                "frame": {"duration": 2000, "redraw": True},
                                 "fromcurrent": True,
                                 "transition": {"duration": 100, "easing": "linear"},
                             },
@@ -376,7 +407,12 @@ def create_interactive_genre_ranking_over_time_racing_barplot(
         frames=frames,
     )
     fig.write_html(
-        f"{SAVE_PATH}genre_ranking_over_time_racing_barplot.html"
+        f"{SAVE_PATH_SHADES}genre_ranking_over_time_racing_barplot.html",
+        config={
+            "toImageButtonOptions": {
+                "filename": "genre_ranking_over_time_racing_barplot"
+            }
+        },
     )
     fig.show()
 
@@ -412,7 +448,12 @@ def create_interactive_stacked_area_plot(genre_year_pivot):
         hovermode="x unified",
     )
 
-    fig.write_html(f"{SAVE_PATH}stacked_area_plot_genre_over_time.html")
+    fig.write_html(
+        f"{SAVE_PATH_SHADES}stacked_area_plot_genre_over_time.html",
+        config={
+            "toImageButtonOptions": {"filename": "stacked_area_plot_genre_over_time"}
+        },
+    )
     fig.show()
 
 
@@ -441,5 +482,174 @@ def create_interactive_heatmap_genre_over_time(genre_year_pivot):
         template="plotly_white",
     )
 
-    fig.write_html(f"{SAVE_PATH}heatmap_genre_over_time.html")
+    fig.write_html(
+        f"{SAVE_PATH_SHADES}heatmap_genre_over_time.html",
+        config={"toImageButtonOptions": {"filename": "heatmap_genre_over_time"}},
+    )
     fig.show()
+
+
+def create_interactive_grid(mean_revenue_pivot, genre_year_pivot):
+    genres = mean_revenue_pivot.columns.tolist()
+    initial_genre = genres[0]
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+    fig.add_trace(
+        go.Scatter(x=mean_revenue_pivot.index, y=mean_revenue_pivot[initial_genre], name='Average Box Office Revenue ($)', line=dict(color='blue')),
+        secondary_y=False
+    )
+    fig.add_trace(
+        go.Scatter(x=genre_year_pivot.index, y=genre_year_pivot[initial_genre], name='Number of Movies', line=dict(color='red')),
+        secondary_y=True
+    )
+
+    fig.update_layout(
+        title=f"Genre: {initial_genre}",
+        xaxis_title='Year',
+        yaxis_title='Average Box Office Revenue ($)',
+        yaxis2_title='Number of Movies',
+        yaxis2=dict(showgrid=False),
+        template='plotly_white'
+    )
+
+    fig.update_layout(
+        updatemenus=[
+            dict(
+                active=0,
+                buttons=[
+                    dict(
+                        label=genre,
+                        method="update",
+                        args=[
+                            {"y": [mean_revenue_pivot[genre], genre_year_pivot[genre]]},  # update data
+                            {"title": f"Genre: {genre}"}  # update title
+                        ]
+                    ) for genre in genres
+                ],
+                x=0,
+                y=-0.2,
+                xanchor='left',
+                yanchor='top',
+                direction='up'
+            ),
+            dict(
+                active=2,
+                buttons=[
+                    dict(
+                        label='Revenue',
+                        method='update',
+                        args=[{"visible": [True, False]}]
+                    ),
+                    dict(
+                        label='Count',
+                        method='update',
+                        args=[{"visible": [False, True]}]
+                    ),
+                    dict(
+                        label='Both',
+                        method='update',
+                        args=[{"visible": [True, True]}]
+                    )
+                ],
+                x=0.3,
+                y=-0.2,
+                xanchor='left',
+                yanchor='top',
+                direction='up'
+            )
+        ],
+    )
+
+    fig.write_html(
+        f"{SAVE_PATH_SHADES}grid.html",
+        config={"toImageButtonOptions": {"filename": "grid"}},
+    )
+    fig.show()
+
+
+# Interactive plots for Budget
+def create_interactive_scatter_budget_vs_revenue(df):
+    fig = px.scatter(
+        df,
+        x="log_budget",
+        y="log_revenue",
+        title="Movie Budget vs. Box Office Revenue",
+        labels={"log_budget": "Logarithmic Inflated Budget", "log_revenue": "Logarithmic Inflated Revenue"},
+        color_discrete_sequence=px.colors.qualitative.Set2,
+        hover_data=df.columns,
+    )
+
+    fig.update_traces(
+        marker=dict(size=10, opacity=0.7),
+        hovertemplate="<b>%{customdata[0]}</b><br><br>"
+                      "Inflated Budget: $%{customdata[1]:,.0f}<br>"
+                      "Inflated Revenue: $%{customdata[2]:,.0f}<br>"
+                      "Logarithmic Inflated Budget: %{x}<br>"
+                      "Logarithmic Inflated Revenue: %{y}<br>"
+                      "<extra></extra>"
+    )
+    fig.update_layout(
+        xaxis_title="Logarithmic Inflated Budget ($)",
+        yaxis_title="Logarithmic Inflated Revenue ($)",
+        title=dict(x=0.5),
+        template="plotly_white",
+    )
+
+    fig.write_html(
+        f"{SAVE_PATH_BUDGET}scatter_budget_vs_revenue.html",
+        config={"toImageButtonOptions": {"filename": "scatter_budget_vs_revenue"}},
+    )
+    fig.show()   
+
+
+def create_interactive_boxplots_budget_per_genre(df_budget_filtered, top_20_genres):
+    fig = px.box(
+        df_budget_filtered,
+        x="genres_list",
+        y="log_budget",
+        color="genres_list",
+        category_orders={"genres_list": top_20_genres},
+        title="Distribution of Budget per Genre (Top 20 Most Common Genres)",
+        labels={"genres_list": "Genre", "log_budget": "Log10(Budget)"},
+    )
+
+    fig.update_layout(
+        xaxis_title="Genre",
+        yaxis_title="Logarithmic Budget",
+        xaxis_tickangle=45,
+        title=dict(x=0.5),
+        template="plotly_white",
+        showlegend=False,
+    )
+
+    fig.write_html(
+        f"{SAVE_PATH_BUDGET}boxplots_budget_per_genre.html",
+        config={"toImageButtonOptions": {"filename": "boxplots_budget_per_genre"}},
+    )
+
+    fig.show()
+
+
+def create_interactive_boxplots_ROI_per_genre(df_budget_filtered, top_20_genres):
+    fig = px.box(
+        df_budget_filtered,
+        x="genres_list",
+        y="log_ROI",
+        color="genres_list",
+        category_orders={"genres_list": top_20_genres},
+        labels={"genres_list": "Genre", "log_ROI": "Log10(ROI)"},
+        title="Distribution of ROI per Genre",
+    )
+    fig.update_layout(
+        xaxis_title="Genre",
+        yaxis_title="Logarithmic ROI",
+        title=dict(x=0.5),
+        template="plotly_white",
+        showlegend=False,
+    )
+
+    fig.write_html(
+        f"{SAVE_PATH_BUDGET}boxplots_ROI_per_genre.html",
+        config={"toImageButtonOptions": {"filename": "boxplots_ROI_per_genre"}},
+    )
+    
+    fig.show()    
