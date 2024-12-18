@@ -27,7 +27,7 @@ def top_10_movie_release_countries(top_countries):
         yaxis=dict(categoryorder="total ascending"),
         template="plotly_white",
         title_x=0.5,
-        title_font=dict(size=20, family="Arial", color="black"),
+        title_font=dict(family="Arial"),
         margin=dict(t=70, b=50, l=50, r=50),
         title=dict(pad=dict(t=10, b=0)),
         showlegend=False,
@@ -59,7 +59,7 @@ def top_10_movie_languages(top_languages):
         yaxis=dict(categoryorder="total ascending"),
         template="plotly_white",
         title_x=0.5,
-        title_font=dict(size=20, family="Arial", color="black"),
+        title_font=dict(family="Arial"),
         margin=dict(t=70, b=50, l=50, r=50),  #
         title=dict(pad=dict(t=10, b=0)),
         showlegend=False,
@@ -115,7 +115,7 @@ def language_highest_mean_box_office(top_languages, df_movie_country_language_ex
     fig.update_layout(
         xaxis_tickangle=-45,
         title_x=0.5,
-        title_font=dict(size=20, family="Arial", color="black"),
+        title_font=dict(family="Arial"),
         template="plotly_white",
         margin=dict(t=70, b=50, l=50, r=50),
         title=dict(pad=dict(t=10, b=0)),
@@ -189,7 +189,7 @@ def average_revenue_per_language_per_year(filtered_df):
         title_x=0.5,
         xaxis=dict(title="Average Revenue [$]", range=[0, max_revenue * 1.1]),
         yaxis=dict(
-            title="Languages",
+            title="Language",
             autorange="reversed",
             categoryorder="array",
             categoryarray=all_languages,
@@ -283,5 +283,133 @@ def average_revenue_per_language_per_year(filtered_df):
             "toImageButtonOptions": {
                 "filename": "average_revenue_per_language_per_year"
             }
+        },
+    )
+
+
+def revenue_per_nbr_languages(df_movie_country_language, mean_language_revenue):
+    fig = px.box(
+        df_movie_country_language,
+        x="nbr_languages",
+        y="log_revenue",
+        title="Box Office Revenue Distribution per Number of Languages",
+        labels={
+            "nbr_languages": "Number of Languages",
+            "log_revenue": "Logarithmic Revenue [$]",
+        },
+        category_orders={"nbr_languages": mean_language_revenue},
+        color="nbr_languages",
+        color_discrete_sequence=px.colors.qualitative.Set2,
+        points="outliers",
+    )
+
+    fig.update_layout(
+        xaxis_title="Number of Languages",
+        yaxis_title="Logarithmic Revenue [$]",
+        title_x=0.5,
+        xaxis=dict(
+            tickmode="linear",
+            tick0=1,
+            dtick=1,
+        ),
+        template="plotly_white",
+        showlegend=False,
+    )
+
+    fig.show()
+    fig.write_html(
+        f"{SAVE_PATH_TONGUES}revenue_per_nbr_languages.html",
+        config={"toImageButtonOptions": {"filename": "revenue_per_nbr_languages"}},
+    )
+
+
+def map_average_revenue_by_country(country_revenue_df):
+    fig = px.choropleth(
+        country_revenue_df,
+        locations="Country",
+        locationmode="country names",
+        color="Average Box Office Revenue",
+        hover_name="Country",
+        color_continuous_scale=px.colors.sequential.matter,
+        title="Average Box Office Revenue by Country",
+    )
+
+    fig.update_layout(
+        title_x=0.5,
+        title_font=dict(family="Arial"),
+        margin=dict(t=70, b=50, l=50, r=50),
+        coloraxis_colorbar=dict(
+            title="Average Box Office Revenue [$]",
+        ),
+        template="plotly_white",
+    )
+
+    fig.show()
+    fig.write_html(
+        f"{SAVE_PATH_TONGUES}map_average_revenue_by_country.html",
+        config={"toImageButtonOptions": {"filename": "map_average_revenue_by_country"}},
+    )
+
+
+def country_highest_mean_box_office(df_movie_country_language, top_countries):
+    # filter the dataset to only include the top countries
+    df_movie_country_top = df_movie_country_language[
+        df_movie_country_language["first_country"].isin(top_countries.index)
+    ]
+    # count the number of movies for these top countries (for each country individually)
+    movies_per_country_top = df_movie_country_top.groupby("first_country")[
+        "movie_name"
+    ].nunique()
+    # align movie counts with the order of top languages index
+    movie_counts_aligned = [
+        movies_per_country_top.loc[lang] if lang in movies_per_country_top else 0
+        for lang in top_countries.index
+    ]
+    # transform into dataframe (movie_counts_aligned)
+    movie_counts_aligned_df = pd.DataFrame(
+        movie_counts_aligned, index=top_countries.index
+    )
+    plot_data_movies = pd.DataFrame(
+        {
+            "Country": top_countries.index,
+            "Average Box Office Revenue [$]": top_countries.values,
+            "Movie Count": movie_counts_aligned_df.values.ravel(),
+        }
+    )
+
+    fig = px.bar(
+        data_frame=plot_data_movies,
+        x="Country",
+        y="Average Box Office Revenue [$]",
+        labels={"x": "Country", "y": "Average Box Office Revenue [$]"},
+        title=f"Top 10 Countries with Highest Average Box Office Revenue",
+        color="Country",
+        color_discrete_sequence=px.colors.qualitative.Set2,
+        text="Average Box Office Revenue [$]",
+        custom_data=["Movie Count"],
+    )
+
+    fig.update_layout(
+        xaxis_tickangle=-45,
+        title_x=0.5,
+        title_font=dict(family="Arial"),
+        margin=dict(t=70, b=50, l=50, r=50),
+        title=dict(pad=dict(t=10, b=0)),
+        showlegend=False,
+        template="plotly_white",
+    )
+
+    fig.update_traces(
+        texttemplate="%{text:.2s} <br>(%{customdata[0]} movies)",
+        textposition="outside",
+    )
+
+    fig.update_yaxes(range=[0, max(top_countries.values) * 1.2])
+
+    fig.show()
+    fig.write_html(
+        f"{SAVE_PATH_TONGUES}country_highest_mean_box_office.html",
+        config={
+            "toImageButtonOptions": {"filename": "country_highest_mean_box_office"}
         },
     )
