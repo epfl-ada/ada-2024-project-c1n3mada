@@ -4,6 +4,8 @@ import numpy as np
 import pandas as pd
 from typing import List, Tuple
 
+from src.utils import analysis_utils as au
+
 
 def load_cmu_movies_data(path):
     """
@@ -301,38 +303,85 @@ def prepare_df_for_genre_analysis(df):
     return df_genres
 
 
-# Data Cleaning
-def clean_dataframes(
-    df_country: pd.DataFrame,
-    df_language: pd.DataFrame,
-    df_country_language: pd.DataFrame,
-) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    """Clean all dataframes by removing NaN values, empty lists and duplicates."""
+def prepare_df_for_country_language_analysis(df):
+    """
+    Prepare data for the movie Tongues, containing the country and language analysis
+    Args:
+        df (pd.DataFrame): the intial dataframe
+    Returns:
+        df_movie_country_language (pd.DataFrame): the dataframe necessary for the analysis of countries and languages
+    """
+    # select the relevant columns
+    df_movie_country_language = df[
+        [
+            "movie_name",
+            "movie_languages",
+            "movie_countries",
+            "inflated_revenue",
+            "release_year",
+        ]
+    ]
+    # handle missing values and duplicats
+    df_movie_country_language = clean_dataframe_movie_country(df_movie_country_language)
+    # add log revenue
+    df_movie_country_language["log_revenue"] = np.log10(
+        df_movie_country_language["inflated_revenue"]
+    )
+    # convert release year to integer
+    df_movie_country_language["release_year"] = df_movie_country_language[
+        "release_year"
+    ].astype(int)
 
+    return df_movie_country_language
+
+
+def prepare_df_country_language_extended(df_movie_country_language):
+    """
+    Prepare data for on part of the movie Tongues, exploding the movie languages
+    Args:
+        df_movie_country_language (pd.DataFrame): the initial dataframe created for the country and language anaylsis
+    Returns:
+        df_movie_country_language_extended (pd.DataFrame): the dataframe necessary of languages
+    """
+    df_movie_country_language_extended = df_movie_country_language.copy()
+    # extract the languages from the tuples
+    df_movie_country_language_extended["movie_languages"] = (
+        df_movie_country_language_extended["movie_languages"].apply(
+            au.extract_languages
+        )
+    )
+    # explode on the movie languages column
+    df_movie_country_language_extended = df_movie_country_language_extended.explode(
+        "movie_languages"
+    )
+
+    return df_movie_country_language_extended
+
+
+# Data Cleaning
+def clean_dataframe_movie_country(df_country_language):
+    """
+    Clean the dataframe used for country and language analysis by removing NaN values, empty lists and duplicates.
+    Args:
+        df_country_language (pd.DataFrame): the dataframe for countries and languages to be cleaned
+    Returns:
+        df_country_language (pd.DataFrame): the cleaned dataframe
+    """
     # Remove NaN values
-    df_country = df_country.dropna()
-    df_language = df_language.dropna()
     df_country_language = df_country_language.dropna()
 
     # Remove empty lists
-    df_country = remove_empty_lists(df_country, "movie_countries")
-    df_language = remove_empty_lists(df_language, "movie_languages")
-    df_country_language = remove_empty_lists_combined(df_country_language)
+    df_country_language = remove_empty_lists_country_language_combined(
+        df_country_language
+    )
 
     # Remove duplicates
-    df_country = df_country.drop_duplicates()
-    df_language = df_language.drop_duplicates()
     df_country_language = df_country_language.drop_duplicates()
 
-    return df_country, df_language, df_country_language
+    return df_country_language
 
 
-def remove_empty_lists(df: pd.DataFrame, column: str) -> pd.DataFrame:
-    """Remove rows where specified column contains empty lists."""
-    return df[df[column].apply(lambda x: len(ast.literal_eval(x)) > 0)]
-
-
-def remove_empty_lists_combined(df: pd.DataFrame) -> pd.DataFrame:
+def remove_empty_lists_country_language_combined(df: pd.DataFrame) -> pd.DataFrame:
     """Remove rows where either countries or languages lists are empty."""
     return df[
         df["movie_countries"].apply(lambda x: len(ast.literal_eval(x)) > 0)
