@@ -22,7 +22,7 @@ Together they form the group **C1n3mada**. 😊
 - [Methods](#methods)
 - [Proposed timeline](#proposed-timeline)
 - [Organization within the team](#organization-within-the-team)
-- [Questions for TAs](#questions-for-tas)
+- [Website with the datastory](#website-with-the-datastory)
 
 ## Abstract
 &#x1F3AC; **C1n3mada presents: Money, Money, Movies – The secrets of movies’ box office success** :movie_camera:
@@ -205,8 +205,12 @@ The group work was smooth and well-coordinated. 😊
 | Movie 5                             | Can                    |
 | Movie 6                             | Said                   |
 | Website design                      | Nadezhda, Céline, Said |             
-| Adapting stories to overall style   | Céline, Nadezdha       |     
+| Adapting stories to overall style   | Céline, Nadezhda       |     
 | Notebook modularisation             | Said                   |              
-| README                              | Céline                 |          
+| README                              | Céline                 |      
+
+## Website with the datastory
+Enjoy the complete analysis through an engaging datastory presented on our designed website: <br> 
+&#x1F3AC; [C1n3mada presents: Money, Money, Movies – The secrets of movies’ box office success](https://celinekalbermatten.github.io/c1n3mada-datastory/) :movie_camera:
 
 
