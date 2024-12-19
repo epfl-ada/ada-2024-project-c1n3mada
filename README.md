@@ -1,4 +1,4 @@
-# Project milestone 2 C1n3mada 
+# Project Final Milestone C1n3mada 
 
 The current repository was created within the scope of the second project milestone during the course [CSS-401 Applied Data Analysis](https://edu.epfl.ch/coursebook/en/applied-data-analysis-CS-401) at [EPFL](https://www.epfl.ch/en/).
 
@@ -22,7 +22,7 @@ Together they form the group **C1n3mada**. 😊
 - [Methods](#methods)
 - [Proposed timeline](#proposed-timeline)
 - [Organization within the team](#organization-within-the-team)
-- [Questions for TAs](#questions-for-tas)
+- [Website with the datastory](#website-with-the-datastory)
 
 ## Abstract
 &#x1F3AC; **C1n3mada presents: Money, Money, Movies – The secrets of movies’ box office success** :movie_camera:
@@ -64,20 +64,24 @@ ada-2024-project-c1n3mada/
     ├── Q5.ipynb                           # Jupyter notebook containing the implementation of movie 5
 ├── src/                              # Directory containing some main source code scripts 
     ├── utils/                             # Directory containing some utils scripts
+       ├── analysis_utils.py                    # Script containing functions to simplify several analysis aspects
        ├── data_utils.py                        # Script containing functions to pre-process the different datasets
+       ├── evaluation_utils.py                  # Script containing functions to perform different checks
+       ├── general_utils.py                     # Script containing functions to simplify several general
+       ├── interactive_plots_utils.py           # Script containing functions to create all the interactive plots
        ├── merge_utils.py                       # Script containing functions to merge the different datasets
        ├── plot_utils.py                        # Script containing functions to plot some data
 ├── tests/                            # Directory containing tests for the project
 ├── requirements.txt/                 # File containing all requirements to run the current project
-├── results.ipynb/                    # Jupyter notebook containing all the initial analysis and implementations
+├── results.ipynb/                    # Jupyter notebook containing all the analysis and implementations
 ```
 
-The `results.ipynb` is the Jupyter notebook containing the initial analysis and implementations done for milestone 2. 
+The `results.ipynb` is the Jupyter notebook containing the complete analysis and implementations. It loads the data that has been pre-processed and merged in the `data_preparation.ipynb` Jupyter notebook.
 
 
 ## Research questions
 **Movie 1: Echo** 📢 <br> 
-How does a movie’s IMDb rating relate to its box office success? <br> 
+How does a movie’s IMDb rating relate to its box office revenue? <br> 
 This film explores the IMDb rating, being a reflection of audience and critic reception for movies. The correlation between rating and the box office revenue is presented, first for all movies in general and then broken down by genre.
 
 **Movie 2: Tongues** 🗣 <br> 
@@ -96,6 +100,10 @@ This film highlights which directors produce the most movies, which ones generat
 How much is a movie’s box office revenue influenced by its release timing and duration? <br>
 This film provides insights into the influence of a movie’s release season on its success. It also examines the impact of the movie’s runtime for each season individually and breaks down these factors by genre. 	
 
+**Movie 6: Treasure** 💰 <br> 
+How does a movie’s budget relate to its box office revenue? <br>
+This film delves into the relationship between a movie's budget and its box office revenue. It examines the Return on investment (ROI) and analyses how this relationship varies across different genres. 	
+
 
 ## Proposed additional datasets
 **IMDb** <br> 
@@ -109,7 +117,7 @@ The [Consumer Price Index (CPI) data](https://fred.stlouisfed.org/series/CPIAUCN
 
 ## Methods
 
-### Data merging and pre-processing
+### Data pre-processing and merging
 
 Initially, all the different datasets are cleaned individually.
 - CMU dataset: The numeric fields are converted to appropriate data types. Data fields are standardised to datetime format. The structure fields (languages, countries, genres) are parsed.
@@ -131,21 +139,24 @@ The data resulting from the pre-processing described above is saved as `movies_p
 
 ### Implementation of the research questions
 
-This part provides an overview of the different methods that are used or will be used to implement the analysis based on the different research questions. Some methods may be added in the future. Descriptions of the methods can also be found in the Jupyter notebook `results.ipynb`. 
+This part provides an overview of the different methods that are used to implement the analysis based on the different research questions. Descriptions of the methods can also be found in the Jupyter notebook `results.ipynb`. 
 
-**Movie 1:** General descriptive statistics are used to summarise the data. Histograms visualize the distribution of IMDb ratings. Bar plots display the number of movies per genre and scatter plots explore the relationship between IMDb ratings and box office revenue. In order to determine the correlation between the rating and the box office revenue, Pearson and Spearman correlation coefficients are used and the correlation is visualised in a heatmap. Additionally, the linear regression outputs are analysed and the regression line is plotted. A joint plot combines several methods to visualise the relationship between the ratings and the box office revenue. 
+**Movie 1:** General descriptive statistics are used to summarise the data. Histograms visualise the distribution of IMDb ratings. Bar plots display the number of movies per genre and scatter plots explore the relationship between IMDb ratings and box office revenue. In order to determine the correlation between the rating and the box office revenue, Pearson and Spearman correlation coefficients are used and the correlation is visualised in a heatmap. Additionally, the linear regression outputs are analysed and the regression line is plotted. A joint plot combines several methods to visualise the relationship between the ratings and the box office revenue. 
 
-**Movie 2:** For the initial exploration the unique country and language names were extracted and some exploratory prints were performed. Only the first country and language are taken since they are considered as the main ones. Including all the countries and languages would likely give them too much importance compared to the main ones. The most common countries and languages are plotted in a bar chart. To investigate the influence of the language, the languages with the highest average box office revenue are plotted in a bar chart. Regression analysis as well as ANOVA are performed. The same methods are used to analyse the influence of the country. A correlation analysis, along with regression and ANOVA, is used to determine the relationship between language and country. To estimate the influence of multilingual movies ANOVA is performed.
+**Movie 2:** For the initial exploration the release country and language names were extracted and some exploratory prints were performed. All languages for each movie are kept since their order is random. For the country, only the first one, namely the release country, is considered. The most common countries and languages are plotted in a bar chart. To investigate the influence of the language, the languages with the highest average box office revenue are plotted in a bar chart. Regression analysis as well as ANOVA are performed to analyse the statistical significance. The same methods are used to analyse the influence of the country. The average box office revenues per country are visualised on a map. Additionally, the average box office revenues per language are plotted over the years to identify notable trends or events. To analyse the impact of multilinguality on the box office revenue, box plots display the distribution of revenue based on the number of languages in a movie.
 
-**Movie 3:** Some descriptive statistics, along with bar plots, are used to determine the average and median revenue per genre. To analyse the distribution of revenues within each genre, statistics such as the interquartile range, variance, and skewness are used. The visualisations are done with box plots and violin plots. A line plot is used to display the change in revenue per genre over time. Pearson and Spearman correlation coefficients are also used.
+**Movie 3:** TODOOO Some descriptive statistics, along with bar plots, are used to determine the average and median revenue per genre. To analyse the distribution of revenues within each genre, statistics such as the interquartile range, variance, and skewness are used. The visualisations are done with box plots and violin plots. A line plot is used to display the change in revenue per genre over time. Pearson and Spearman correlation coefficients are also used.
 
-**Movie 4:** Bar plots are used to display the directors with the highest box office revenues, as well as those with the most movies and the best average revenue per movie. Some statistical methods will also be used.
+**Movie 4:** The maximum box office revenues per year are plotted over time using a line plot. Bar plots are used to displays the top directors based on box office revenue and the number of movies they directed. An evolving bar plot shows the cumulative revenue of directors over the years. Two evolving treemaps illustrate the top movies and directors in terms of box office revenues over the years.
 
-**Movie 5:** A bar plot is used to explore the revenues per season, whereas a scatter plot displays the movie runtimes versus the revenues per season. A heatmap, along with a facet grid, is used to analyse the revenue based on genre and season. A regression is performed to fit the runtime with the revenue per season. A pivot table shows genre popularity over time. ANOVA is performed to analyse the influence of the season. Box plots display the distribution of revenues per season and per genre.
+**Movie 5:** Bar plots are used to explore revenues per season and the top genres by movie counts across seasons. Box plots display the distribution of movie revenues per season. A scatter plot illustrates the impact of movie runtime on revenue, split by season. Heatmaps are used to visualise the average revenues by genre and season as well as genre popularity over time. Additionally, a bar plot shows the average movie box office revenue by day of the week.
+
+**Movie 6:** Histograms display the distributions of budgets and revenues. A line plot illustrates the average budget and revenue over time. The ROI is analysed using a histogram and visualised on a bar plot by genre with confidence intervals. Box plots show the distribution of budgets across genres. Pearson and Spearman correlations are calculated to evaluate the relationship between budget and revenue. TO DOOOOO
 
 
 ## Proposed timeline
-The following timeline provides an overview of the project implementation.
+The following timeline provides an overview of the project implementation. <br> 
+Of course, it was not completely respected. 😊
 ```
 Topic decision — Deadline: 28.10.2024
   - Collect ideas and note preferences for the overall project idea
@@ -182,21 +193,24 @@ Code cleaning and final details — Deadline: 20.12.2024
 ```
 
 ## Organization within the team
-The following table defines the internal milestones up until project milestone 3.
-| Task                             | Person in charge    | Deadline      |
-|----------------------------------|---------------------|---------------|
-| Movie 1 (final implementation)   | Said                | 08.12.2024    |
-| Movie 2 (final implementation)   | Céline              | 08.12.2024    |
-| Movie 3 (final implementation)   | Nadezhda            | 08.12.2024    |
-| Movie 4 (final implementation)   | Jennifer            | 08.12.2024    |
-| Movie 5 (final implementation)   | Can                 | 08.12.2024    |
-| Implementation of the story      | All                 | 15.12.2024    |
-| Code cleaning and final details  | All                 | 20.12.2024    |
-| README                           | Céline              | 20.12.2024    |
+The following table shows the contribution of the team members to the individual task. <br> 
+The group work was smooth and well-coordinated. 😊
 
-## Questions for TAs
-- **Implementation Modularity:** Should we aim for modular implementation with separate scripts for each functions then invoke them in the notebook, or would integrating all analyses into a single notebook be more effective for the final submission?
-- **Plot Styling:** How critical is it to maintain a consistent style for all plots across different research questions? Are there specific guidelines or preferences for plot standardization? Do you have any suggestions for the colours, how to choose them? What do you think about the current plots (readability for example)?
-- **Creative Presentation:** We are presenting our research questions as “movies.” Do you have any feedback or suggestions to enhance this creative approach, or is it suitable as is?
-- **Actors’ Influence:** If we decide not to analyze actors as a standalone research question, can we include an actor-related graph as a supplementary visualization and provide a brief interpretation alongside it?
-- **Depth of Analysis:** Is the current level of analysis sufficient for the scope of the project, or should we delve into more detailed and granular analyses for each research question? (if yes do you have specific suggestions?)
+| Task                                | Person in charge       |      
+|-------------------------------------|------------------------|
+| Movie 1                             | Said                   | 
+| Movie 2                             | Céline                 | 
+| Movie 3                             | Nadezhda               | 
+| Movie 4                             | Jennifer               | 
+| Movie 5                             | Can                    |
+| Movie 6                             | Said                   |
+| Website design                      | Nadezhda, Céline, Said |             
+| Adapting stories to overall style   | Céline, Nadezhda       |     
+| Notebook modularisation             | Said                   |              
+| README                              | Céline                 |      
+
+## Website with the datastory
+Enjoy the complete analysis through an engaging datastory presented on our designed website: <br> 
+&#x1F3AC; [C1n3mada presents: Money, Money, Movies – The secrets of movies’ box office success](https://celinekalbermatten.github.io/c1n3mada-datastory/) :movie_camera:
+
+
