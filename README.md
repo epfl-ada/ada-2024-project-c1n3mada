@@ -76,7 +76,7 @@ ada-2024-project-c1n3mada/
 ├── results.ipynb/                    # Jupyter notebook containing all the analysis and implementations
 ```
 
-The `results.ipynb` is the Jupyter notebook containing the complete analysis and implementations done for the final milestone.
+The `results.ipynb` is the Jupyter notebook containing the complete analysis and implementations. It loads the data that has been pre-processed and merged in the `data_preparation.ipynb` Jupyter notebook.
 
 
 ## Research questions
@@ -117,7 +117,7 @@ The [Consumer Price Index (CPI) data](https://fred.stlouisfed.org/series/CPIAUCN
 
 ## Methods
 
-### Data merging and pre-processing
+### Data pre-processing and merging
 
 Initially, all the different datasets are cleaned individually.
 - CMU dataset: The numeric fields are converted to appropriate data types. Data fields are standardised to datetime format. The structure fields (languages, countries, genres) are parsed.
