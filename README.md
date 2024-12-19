@@ -201,6 +201,7 @@ The group work was smooth and well-coordinated. 😊
 | Movie 3                             | Nadezhda               | 
 | Movie 4                             | Jennifer               | 
 | Movie 5                             | Can                    |
+| Movie 6                             | Said                   |
 | Website design                      | Nadezhda, Céline, Said |             
 | Adapting stories to overall style   | Céline, Nadezdha       |     
 | Notebook modularisation             | Said                   |              
