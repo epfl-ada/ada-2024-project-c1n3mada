@@ -153,7 +153,8 @@ This part provides an overview of the different methods that are used or will be
 
 
 ## Proposed timeline
-The following timeline provides an overview of the project implementation.
+The following timeline provides an overview of the project implementation. <br> 
+Of course, it was not completely respected. 😊
 ```
 Topic decision — Deadline: 28.10.2024
   - Collect ideas and note preferences for the overall project idea
@@ -190,6 +191,8 @@ Code cleaning and final details — Deadline: 20.12.2024
 ```
 
 ## Organization within the team
+The following table shows the contribution of the team members to the individual task. <br> 
+The group work was smooth and well-coordinated. 😊
 
 | Task                                | Person in charge       |      
 |-------------------------------------|------------------------|
@@ -200,7 +203,7 @@ Code cleaning and final details — Deadline: 20.12.2024
 | Movie 5                             | Can                    |
 | Website design                      | Nadezhda, Céline, Said |             
 | Adapting stories to overall style   | Céline, Nadezdha       |     
-| Notebook modularisation             | Said                 
-| README                              | Céline              
+| Notebook modularisation             | Said                   |              
+| README                              | Céline                 |          
 
 
