@@ -330,7 +330,7 @@ def create_interactive_genre_ranking_over_time_racing_barplot(
     layout = go.Layout(
         title="Genre Ranking by Average Box Office Revenue per Decade",
         xaxis=dict(
-            title="Revenue", range=[0, mean_revenue_pivot_decade.max().max() * 1.1]
+            title="Average Box Office Revenue ($)", range=[0, mean_revenue_pivot_decade.max().max() * 1.1]
         ),
         yaxis=dict(autorange="reversed", title="Genres"),
         sliders=[
