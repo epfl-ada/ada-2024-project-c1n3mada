@@ -1021,14 +1021,15 @@ def create_interactive_scatter_budget_vs_revenue(df):
         "<extra></extra>",
     )
     fig.update_layout(
-        xaxis_title="Logarithmic Inflated Budget ($)",
-        yaxis_title="Logarithmic Inflated Revenue ($)",
+        xaxis_title="Logarithmic Inflated Budget [$]",
+        yaxis_title="Logarithmic Inflated Revenue [$]",
         title=dict(x=0.5),
+        title_font=dict(family="Arial"),
         template="plotly_white",
     )
 
     fig.write_html(
-        f"{SAVE_PATH_BUDGET}scatter_budget_vs_revenue.html",
+        f"{SAVE_PATH_TREASURE}scatter_budget_vs_revenue.html",
         config={"toImageButtonOptions": {"filename": "scatter_budget_vs_revenue"}},
     )
     fig.show()
@@ -1055,7 +1056,7 @@ def create_interactive_boxplots_budget_per_genre(df_budget_filtered, top_20_genr
     )
 
     fig.write_html(
-        f"{SAVE_PATH_BUDGET}boxplots_budget_per_genre.html",
+        f"{SAVE_PATH_TREASURE}boxplots_budget_per_genre.html",
         config={"toImageButtonOptions": {"filename": "boxplots_budget_per_genre"}},
     )
 
@@ -1081,7 +1082,7 @@ def create_interactive_boxplots_ROI_per_genre(df_budget_filtered, top_20_genres)
     )
 
     fig.write_html(
-        f"{SAVE_PATH_BUDGET}boxplots_ROI_per_genre.html",
+        f"{SAVE_PATH_TREASURE}boxplots_ROI_per_genre.html",
         config={"toImageButtonOptions": {"filename": "boxplots_ROI_per_genre"}},
     )
 
