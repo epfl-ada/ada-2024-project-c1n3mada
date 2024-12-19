@@ -187,6 +187,7 @@ def average_revenue_per_language_per_year(filtered_df):
     layout = go.Layout(
         title="Average Box Office Revenue per Language over the Years",
         title_x=0.5,
+        title_font=dict(family="Arial"),
         xaxis=dict(title="Average Revenue [$]", range=[0, max_revenue * 1.1]),
         yaxis=dict(
             title="Language",
@@ -307,6 +308,7 @@ def revenue_per_nbr_languages(df_movie_country_language, mean_language_revenue):
         xaxis_title="Number of Languages",
         yaxis_title="Logarithmic Revenue [$]",
         title_x=0.5,
+        title_font=dict(family="Arial"),
         xaxis=dict(
             tickmode="linear",
             tick0=1,
