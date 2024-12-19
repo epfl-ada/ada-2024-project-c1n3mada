@@ -190,7 +190,7 @@ Code cleaning and final details — Deadline: 20.12.2024
 ```
 
 ## Organization within the team
-The following table defines the internal milestones up until project milestone 3.
+
 | Task                                | Person in charge       |      
 |-------------------------------------|------------------------|
 | Movie 1                             | Said                   | 
