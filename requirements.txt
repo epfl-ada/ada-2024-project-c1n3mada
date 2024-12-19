@@ -8,3 +8,4 @@ statsmodels
 tabulate
 ipywidgets
 jupyter
+ipython
