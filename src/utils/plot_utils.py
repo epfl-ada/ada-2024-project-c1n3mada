@@ -298,6 +298,78 @@ def create_animated_treemap(data, title, mode="movies", top_n=15):
     return initial_fig
 
 
+def plot_budget_revenue_trend(df_budget, min_movies=10):
+    # Remove the years with less than 10 movies for more reliable statistics
+    df_budget_trend = df_budget.groupby("release_year").filter(
+        lambda x: len(x) >= min_movies
+    )
+    df_budget_trend
+
+    # Calculate annual statistics
+    annual_stats = (
+        df_budget_trend.groupby("release_year")
+        .agg(
+            avg_budget=("inflated_budget", "mean"),
+            avg_revenue=("inflated_revenue", "mean"),
+        )
+        .reset_index()
+    )
+
+    # Improved plot
+    fig, ax1 = plt.subplots(figsize=(14, 7))
+
+    # Plot average budget
+    sns.lineplot(
+        x="release_year",
+        y="avg_budget",
+        data=annual_stats,
+        ax=ax1,
+        linewidth=2.5,
+        color="#66C2A5",
+        marker="o",
+        label="Average Budget",
+    )
+
+    # Set labels and formatting
+    ax1.set_ylabel("Average Budget", color="#66C2A5")
+    ax1.set_xlabel("Release Year")
+    ax1.tick_params(axis="y", colors="#66C2A5")
+    ax1.yaxis.set_major_formatter(revenue_formatter)
+
+    # Add twin axis for average revenue
+    ax2 = ax1.twinx()
+    sns.lineplot(
+        x="release_year",
+        y="avg_revenue",
+        data=annual_stats,
+        ax=ax2,
+        linewidth=2.5,
+        color="#FC8D62",
+        marker="o",
+        label="Average Revenue",
+    )
+
+    # Set labels and formatting
+    ax2.set_ylabel("Average Revenue", color="#FC8D62")
+    ax2.tick_params(axis="y", colors="#FC8D62")
+    ax2.yaxis.set_major_formatter(revenue_formatter)
+
+    # Add title and gridlines
+    ax1.set_title(
+        f"Average Budget and Revenue Over Time ({annual_stats['release_year'].min()} - {annual_stats['release_year'].max()})",
+        fontsize=14,
+        fontweight="bold",
+    )
+    ax1.grid(visible=True, linestyle="--", alpha=0.6)
+
+    # Add legends
+    ax1.legend(loc="upper left", fontsize=10, frameon=False)
+    ax2.legend(loc="upper right", fontsize=10, frameon=False)
+
+    plt.tight_layout()
+    plt.show()
+
+
 def revenue_formatter(x, pos):
     """
     Format revenue to millions or billions with a dollar sign
