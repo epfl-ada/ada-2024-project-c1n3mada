@@ -1,4 +1,4 @@
-# Project milestone 2 C1n3mada 
+# Project Final Milestone C1n3mada 
 
 The current repository was created within the scope of the second project milestone during the course [CSS-401 Applied Data Analysis](https://edu.epfl.ch/coursebook/en/applied-data-analysis-CS-401) at [EPFL](https://www.epfl.ch/en/).
 
@@ -64,20 +64,24 @@ ada-2024-project-c1n3mada/
     ├── Q5.ipynb                           # Jupyter notebook containing the implementation of movie 5
 ├── src/                              # Directory containing some main source code scripts 
     ├── utils/                             # Directory containing some utils scripts
+       ├── analysis_utils.py                    # Script containing functions to simplify several analysis aspects
        ├── data_utils.py                        # Script containing functions to pre-process the different datasets
+       ├── evaluation_utils.py                  # Script containing functions to perform different checks
+       ├── general_utils.py                     # Script containing functions to simplify several general
+       ├── interactive_plots_utils.py           # Script containing functions to create all the interactive plots
        ├── merge_utils.py                       # Script containing functions to merge the different datasets
        ├── plot_utils.py                        # Script containing functions to plot some data
 ├── tests/                            # Directory containing tests for the project
 ├── requirements.txt/                 # File containing all requirements to run the current project
-├── results.ipynb/                    # Jupyter notebook containing all the initial analysis and implementations
+├── results.ipynb/                    # Jupyter notebook containing all the analysis and implementations
 ```
 
-The `results.ipynb` is the Jupyter notebook containing the initial analysis and implementations done for milestone 2. 
+The `results.ipynb` is the Jupyter notebook containing the complete analysis and implementations done for the final milestone.
 
 
 ## Research questions
 **Movie 1: Echo** 📢 <br> 
-How does a movie’s IMDb rating relate to its box office success? <br> 
+How does a movie’s IMDb rating relate to its box office revenue? <br> 
 This film explores the IMDb rating, being a reflection of audience and critic reception for movies. The correlation between rating and the box office revenue is presented, first for all movies in general and then broken down by genre.
 
 **Movie 2: Tongues** 🗣 <br> 
@@ -95,6 +99,10 @@ This film highlights which directors produce the most movies, which ones generat
 **Movie 5: Waves** 🌊 <br> 
 How much is a movie’s box office revenue influenced by its release timing and duration? <br>
 This film provides insights into the influence of a movie’s release season on its success. It also examines the impact of the movie’s runtime for each season individually and breaks down these factors by genre. 	
+
+**Movie 6: Treasure** 💰 <br> 
+How does a movie’s budget relate to its box office revenue? <br>
+This film delves into the relationship between a movie's budget and its box office revenue. It examines the Return on investment (ROI) and analyses how this relationship varies across different genres. 	
 
 
 ## Proposed additional datasets
@@ -183,20 +191,16 @@ Code cleaning and final details — Deadline: 20.12.2024
 
 ## Organization within the team
 The following table defines the internal milestones up until project milestone 3.
-| Task                             | Person in charge    | Deadline      |
-|----------------------------------|---------------------|---------------|
-| Movie 1 (final implementation)   | Said                | 08.12.2024    |
-| Movie 2 (final implementation)   | Céline              | 08.12.2024    |
-| Movie 3 (final implementation)   | Nadezhda            | 08.12.2024    |
-| Movie 4 (final implementation)   | Jennifer            | 08.12.2024    |
-| Movie 5 (final implementation)   | Can                 | 08.12.2024    |
-| Implementation of the story      | All                 | 15.12.2024    |
-| Code cleaning and final details  | All                 | 20.12.2024    |
-| README                           | Céline              | 20.12.2024    |
+| Task                                | Person in charge       |      
+|-------------------------------------|------------------------|
+| Movie 1                             | Said                   | 
+| Movie 2                             | Céline                 | 
+| Movie 3                             | Nadezhda               | 
+| Movie 4                             | Jennifer               | 
+| Movie 5                             | Can                    |
+| Website design                      | Nadezhda, Céline, Said |             
+| Adapting stories to overall style   | Céline, Nadezdha       |     
+| Notebook modularisation             | Said                 
+| README                              | Céline              
 
-## Questions for TAs
-- **Implementation Modularity:** Should we aim for modular implementation with separate scripts for each functions then invoke them in the notebook, or would integrating all analyses into a single notebook be more effective for the final submission?
-- **Plot Styling:** How critical is it to maintain a consistent style for all plots across different research questions? Are there specific guidelines or preferences for plot standardization? Do you have any suggestions for the colours, how to choose them? What do you think about the current plots (readability for example)?
-- **Creative Presentation:** We are presenting our research questions as “movies.” Do you have any feedback or suggestions to enhance this creative approach, or is it suitable as is?
-- **Actors’ Influence:** If we decide not to analyze actors as a standalone research question, can we include an actor-related graph as a supplementary visualization and provide a brief interpretation alongside it?
-- **Depth of Analysis:** Is the current level of analysis sufficient for the scope of the project, or should we delve into more detailed and granular analyses for each research question? (if yes do you have specific suggestions?)
+
