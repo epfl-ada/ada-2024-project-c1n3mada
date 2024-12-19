@@ -5,7 +5,7 @@ import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 from scipy.stats import linregress
 
-SAVE_PATH = "../c1n3mada-datastory/assets/plots/budget/"
+SAVE_PATH = "../c1n3mada-datastory/assets/plots/treasure/"
 
 
 def plot_budget_and_revenue_distributions(df, colors, nbins=50):
@@ -34,8 +34,8 @@ def plot_budget_and_revenue_distributions(df, colors, nbins=50):
         go.Histogram(
             x=log_budget,
             nbinsx=nbins,
-            marker=dict(color=colors[0]),
-            name="Logarithmic Budget",
+            marker=dict(color=colors[2]),
+            name="Logarithmic Budget [$]",
         ),
         row=1,
         col=1,
@@ -46,8 +46,8 @@ def plot_budget_and_revenue_distributions(df, colors, nbins=50):
         go.Histogram(
             x=log_revenue,
             nbinsx=nbins,
-            marker=dict(color=colors[1]),
-            name="Logarithmic Revenue",
+            marker=dict(color=colors[3]),
+            name="Logarithmic Revenue [$]",
         ),
         row=1,
         col=2,
@@ -55,16 +55,17 @@ def plot_budget_and_revenue_distributions(df, colors, nbins=50):
 
     # Layout adjustments
     fig.update_layout(
-        title_text="Budget and Inflated Revenue Distributions",
+        title_text="Budget and Box Office Revenue Distributions",
         title_x=0.5,
+        title_font=dict(family="Arial"),
         template="plotly_white",
         showlegend=False,
     )
 
     # Customize axes for subplots
-    fig.update_xaxes(title_text="Log10(Budget)", row=1, col=1)
+    fig.update_xaxes(title_text="Logarithmic Budget [$]", row=1, col=1)
     fig.update_yaxes(title_text="Frequency", row=1, col=1)
-    fig.update_xaxes(title_text="Log10(Revenue)", row=1, col=2)
+    fig.update_xaxes(title_text="Logarithmic Revenue [$]", row=1, col=2)
     fig.update_yaxes(title_text="Frequency", row=1, col=2)
 
     fig.write_html(
@@ -132,24 +133,26 @@ def plot_budget_revenue_over_time(df):
 
     # Update layout for twin axes
     fig.update_layout(
-        title_text=f"Average Budget and Revenue Over Time ({annual_stats['release_year'].min()} - {annual_stats['release_year'].max()})",
+        title_text=f"Average Budget and Box Office Revenue Over Time",
         title_x=0.5,
+        title_font=dict(family="Arial"),
         xaxis=dict(title="Release Year"),
         yaxis=dict(
-            title="Average Budget ($)",
+            title="Average Budget [$]",
             titlefont=dict(color="rgb(102,194,165)"),
             tickfont=dict(color="rgb(102,194,165)"),
             showgrid=True,
             zeroline=True,
         ),
         yaxis2=dict(
-            title="Average Revenue ($)",
+            title="Average Revenue [$]",
             titlefont=dict(color="rgb(252,141,98)"),
             tickfont=dict(color="rgb(252,141,98)"),
             overlaying="y",
             side="right",
             showgrid=False,
         ),
+        # todooooooooooo -> remove the legend, however not sure if it is here
         legend=dict(
             x=0.01,
             y=0.99,
@@ -172,6 +175,9 @@ def plot_budget_revenue_over_time(df):
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
 import numpy as np
+
+
+# todooooooooo -> I don't understand this plotting
 
 
 def plot_roi_distribution(
@@ -234,6 +240,7 @@ def plot_roi_distribution(
         title=title,
         xaxis_title=xlabel if xlabel else column,
         yaxis_title=ylabel,
+        title_font=dict(family="Arial"),
         template="plotly_white",
     )
 
@@ -327,12 +334,13 @@ def plot_roi_by_genre(df):
 
     # Layout customization
     fig.update_layout(
-        title="Average ROI by Movie Genre (with 90% CI)",
+        title="Average ROI by Movie Genre with 90% CI",
         # center the title
         title_x=0.5,
-        xaxis_title="Average Return on Investment (ROI)",
+        xaxis_title="Average ROI",
         yaxis_title="Movie Genre",
         template="plotly_white",
+        title_font=dict(family="Arial"),
         margin=dict(l=100, r=50, t=50, b=50),
         xaxis=dict(gridcolor="rgba(0,0,0,0.1)", zerolinecolor="rgba(0,0,0,0.3)"),
         bargap=0.4,
@@ -359,14 +367,15 @@ def plot_budget_per_genre(df_budget_filtered, top_20_genres):
         color="genres_list",
         category_orders={"genres_list": top_20_genres},
         color_discrete_sequence=px.colors.qualitative.Set2,  # Use Set2 palette
-        title="Distribution of Budget per Genre (for Top 20 Genres)",
-        labels={"genres_list": "Genre", "log_budget": "Log10(Budget)"},
+        title="Budget Distribution for the Top 20 Genres",
+        labels={"genres_list": "Genre", "log_budget": "Logarithmic Budget [$]"},
     )
 
     # Customize the layout
     fig.update_layout(
         xaxis_title="Genre",
-        yaxis_title="Log10(Budget)",
+        yaxis_title="Logarithmic Budget [$]",
+        title_font=dict(family="Arial"),
         xaxis=dict(tickangle=45),
         showlegend=False,
         template="plotly_white",
@@ -426,20 +435,21 @@ def plot_revenue_to_budget_ratio(df_budget):
 
     # Customize the layout
     fig.update_layout(
-        title="Budget vs. Revenue-to-Budget Ratio",
+        title="Relation Between Budget and Revenue-to-Budget Ratio",
         title_x=0.5,
         xaxis=dict(
-            title="Inflated Budget (Log Scale)",
+            title="Logarithmic Budget [$]",
             type="log",
             showgrid=True,
             gridcolor="lightgray",
         ),
         yaxis=dict(
-            title="Revenue-to-Budget Ratio Logarithmic",
+            title="Logarithmic Revenue-to-Budget Ratio",
             showgrid=True,
             gridcolor="lightgray",
         ),
         template="plotly_white",
+        title_font=dict(family="Arial"),
     )
 
     # write the plot to an HTML file
@@ -467,7 +477,7 @@ def plot_budget_correlation_per_genre(genre_corrs):
             y=genre_corrs.index,
             orientation="h",
             name="Pearson",
-            marker_color=px.colors.qualitative.Set2[0],
+            marker_color=px.colors.qualitative.Set2[6],
         )
     )
 
@@ -478,18 +488,19 @@ def plot_budget_correlation_per_genre(genre_corrs):
             y=genre_corrs.index,
             orientation="h",
             name="Spearman",
-            marker_color=px.colors.qualitative.Set2[1],
+            marker_color=px.colors.qualitative.Set2[7],
         )
     )
 
     # Update layout for better readability
     fig.update_layout(
         title_x=0.5,
+        title_font=dict(family="Arial"),
         barmode="group",
-        title="Correlation between Budget and Revenue per Genre (Log-Log Scale)",
+        title="Correlation Between Budget and Revenue per Genre in Log-Log Scale",
         xaxis_title="Correlation Coefficient",
         yaxis_title="Genre",
-        template="simple_white",
+        template="plotly_white",
         legend_title="Correlation Type",
         height=800,
     )
@@ -516,9 +527,13 @@ def plot_budget_vs_revenue(df_budget):
         y="log_revenue",
         nbinsx=30,  # Hexbin size
         nbinsy=30,
+        # todoooooooooooooo -> change to rocket if possible (or viridis)
         color_continuous_scale="peach",
-        title="Movie Budget vs Revenue Distribution",
-        labels={"log_budget": "Log10(Budget)", "log_revenue": "Log10(Revenue)"},
+        title="Relation Between Budget and Revenue",
+        labels={
+            "log_budget": "Logarithmic Budget [$]",
+            "log_revenue": "Logarithmic Revenue [$]",
+        },
     )
 
     # Add regression line
@@ -555,11 +570,12 @@ def plot_budget_vs_revenue(df_budget):
 
     # Customize layout
     fig.update_layout(
-        xaxis_title="Budget (Log Scale)",
-        yaxis_title="Revenue (Log Scale)",
+        xaxis_title="Logarithmic Budget [$]",
+        yaxis_title="Logarithmic Revenue [$]",
         coloraxis_colorbar=dict(title="Count"),
         template="plotly_white",
         showlegend=True,
+        title_font=dict(family="Arial"),
         legend=dict(y=1.05),  # Move legend a bit up
         title_x=0.5,
         height=600,
