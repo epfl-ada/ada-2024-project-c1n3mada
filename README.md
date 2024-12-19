@@ -151,7 +151,7 @@ This part provides an overview of the different methods that are used to impleme
 
 **Movie 5:** Bar plots are used to explore revenues per season and the top genres by movie counts across seasons. Box plots display the distribution of movie revenues per season. A scatter plot illustrates the impact of movie runtime on revenue, split by season. Heatmaps are used to visualise the average revenues by genre and season as well as genre popularity over time. Additionally, a bar plot shows the average movie box office revenue by day of the week.
 
-**Movie 6:** Histograms display the distributions of budgets and revenues. A line plot illustrates the average budget and revenue over time. The ROI is analysed using a histogram and visualised on a bar plot by genre with confidence intervals. Box plots show the distribution of budgets across genres. Pearson and Spearman correlations are calculated to evaluate the relationship between budget and revenue. TO DOOOOO
+**Movie 6:** Histograms display the distributions of budgets and revenues. A line plot illustrates the average budget and revenue over time. The ROI is analysed using a histogram and visualised on a bar plot by genre with confidence intervals. Box plots show the distribution of budgets across genres. Pearson and Spearman correlations are calculated to evaluate the relationship between budget and revenue. The revenue-to-budget ratio is illustrated in a scatter plot. Finally, a hexbin plot shows the relation between budget and revenue distribution. Some statistical analysis is done to analyse the significance of the relation.
 
 
 ## Proposed timeline
