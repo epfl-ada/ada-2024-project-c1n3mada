@@ -163,6 +163,7 @@ def plot_budget_revenue_over_time(df):
             borderwidth=1,
         ),
         template="plotly_white",
+        showlegend=False,
     )
 
     fig.write_html(
@@ -235,6 +236,7 @@ def plot_roi_distribution(
         yaxis_title=ylabel,
         title_font=dict(family="Arial"),
         template="plotly_white",
+        title_x=0.5,
     )
 
     # Write HTML file
@@ -370,19 +372,20 @@ def plot_roi_per_genre_boxplot(df_budget):
         y="log_ROI",
         color="genres_list",
         category_orders={"genres_list": top_20_genres},
-        title="Distribution of ROI per Genre",
-        labels={"genres_list": "Genre", "log_ROI": "Log10(Return on Investment (ROI))"},
+        title="ROI Distribution per Genre",
+        labels={"genres_list": "Genre", "log_ROI": "Logarithmic ROI"},
         color_discrete_sequence=px.colors.qualitative.Set2,  # Set colors to Set2 palette
     )
 
     # Customize the layout
     fig.update_layout(
         xaxis_title="Genre",
-        yaxis_title="Log10(Return on Investment (ROI))",
+        yaxis_title="Logarithmic ROI",
         xaxis=dict(tickangle=45),
         showlegend=False,
         template="plotly_white",
         title_x=0.5,
+        title_font=dict(family="Arial"),
     )
 
     # write the plot to an HTML file
@@ -415,6 +418,7 @@ def plot_budget_per_genre(df_budget_filtered, top_20_genres):
         xaxis=dict(tickangle=45),
         showlegend=False,
         template="plotly_white",
+        title_x=0.5,
     )
 
     # write the plot to an HTML file
@@ -564,7 +568,8 @@ def plot_budget_vs_revenue(df_budget):
         nbinsx=30,  # Hexbin size
         nbinsy=30,
         # todoooooooooooooo -> change to rocket if possible (or viridis)
-        color_continuous_scale="peach",
+        # color_continuous_scale="peach",
+        color_continuous_scale="matter",
         title="Relation Between Budget and Revenue",
         labels={
             "log_budget": "Logarithmic Budget [$]",

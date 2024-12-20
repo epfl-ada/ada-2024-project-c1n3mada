@@ -25,27 +25,27 @@ def plot_num_of_movies_per_genre(df_rating):
         color="Genre",
         title="Number of Movies per Genre",
         text="Number of Movies",
-        color_discrete_sequence=px.colors.qualitative.Safe,  # Color-blind friendly palette
+        color_discrete_sequence=px.colors.qualitative.Set2,
     )
 
     # Update layout for better aesthetics
     fig.update_layout(
         title=dict(
             text="Number of Movies per Genre",
-            font=dict(size=20, family="Arial"),
+            font=dict(family="Arial"),
             x=0.5,
         ),
         xaxis=dict(
             title="Genre",
             tickangle=45,
-            titlefont=dict(size=14),
         ),
         yaxis=dict(
             title="Number of Movies",
-            titlefont=dict(size=14),
         ),
         legend_title=dict(text="Genre"),
         template="plotly_white",
+        title_x=0.5,
+        showlegend=False,
     )
 
     # Add interactivity improvements
@@ -66,7 +66,9 @@ def plot_num_of_movies_per_genre(df_rating):
 
 def plot_imdb_rating_distribution(df_rating):
     # Colorblind-friendly and pleasing color
-    color = "#D55E00"  # Vermillion
+    # set2 colors
+    colors = px.colors.qualitative.Set2
+    color = colors[0]
 
     # Calculate histogram data with custom bins (adjust bin size as needed)
     bins = [
@@ -99,7 +101,7 @@ def plot_imdb_rating_distribution(df_rating):
         * len(df_rating["averageRating"])
         / 10,  # Scale KDE to match histogram counts
         mode="lines",
-        line=dict(color="black", width=2),  # Black line for KDE
+        line=dict(color="#808080", width=2),  # Black line for KDE
         name="KDE",  # Label the KDE line
     )
 
@@ -107,7 +109,7 @@ def plot_imdb_rating_distribution(df_rating):
 
     # Customize the layout
     fig.update_layout(
-        title_text="Distribution of IMDb Ratings",
+        title_text="IMDb Ratings Distribution",
         # center the title text
         title_x=0.5,
         xaxis_title_text="IMDb Rating",
@@ -116,17 +118,15 @@ def plot_imdb_rating_distribution(df_rating):
         paper_bgcolor="white",
         bargap=0.01,  # Adjust spacing between bars
         font_color="black",
-        xaxis=dict(
-            showgrid=False, title_font=dict(size=18, color="black")
-        ),  # Black axis titles
+        xaxis=dict(showgrid=False),  # Black axis titles
         yaxis=dict(
             showgrid=True,
             gridcolor="lightgray",
-            title_font=dict(size=18, color="black"),
         ),  # Light gray grid and black axis titles
-        title=dict(font=dict(size=24, color="black")),  # Black title
+        title_font=dict(family="Arial"),
         # show the legend for histogram and KDE
-        showlegend=True,
+        template="plotly_white",
+        showlegend=False,
     )
 
     # Save the plot as an HTML file
@@ -143,7 +143,8 @@ def plot_box_office_revenue_distribution(df_rating):
     log_revenue = np.log10(df_rating["inflated_revenue"])
 
     # Colorblind-friendly and pleasing color
-    color = "#0072B2"  # Bluish color
+    colors = px.colors.qualitative.Set2
+    color = colors[1]
 
     # Create histogram trace
     histogram_trace = go.Histogram(
@@ -165,7 +166,7 @@ def plot_box_office_revenue_distribution(df_rating):
         x=x_range,
         y=kde(x_range) * len(log_revenue) / 10,  # Scale KDE to histogram
         mode="lines",
-        line=dict(color="black", width=2),
+        line=dict(color="#808080", width=2),
         name="KDE",
     )
 
@@ -173,21 +174,21 @@ def plot_box_office_revenue_distribution(df_rating):
 
     # Customize layout
     fig.update_layout(
-        title_text="Distribution of Box Office Revenues",
+        title_text="Box Office Revenue Distribution",
         title_x=0.5,
-        xaxis_title_text="Log10 of Box Office Revenue",
+        xaxis_title_text="Logarithmic Box Office Revenue [$]",
         yaxis_title_text="Number of Movies",  # Frequency label
         plot_bgcolor="white",
         paper_bgcolor="white",
         bargap=0.01,
         font_color="black",
-        xaxis=dict(showgrid=False, title_font=dict(size=18, color="black")),
+        xaxis=dict(showgrid=False),
         yaxis=dict(
             showgrid=True,
             gridcolor="lightgray",
-            title_font=dict(size=18, color="black"),
         ),
-        title=dict(font=dict(size=24, color="black")),
+        title_font=dict(family="Arial"),
+        showlegend=False,
     )
 
     # Save the plot as an HTML file
@@ -266,13 +267,13 @@ def plot_imdb_rating_vs_box_office_revenue(df_rating):
         hover_data=["movie_name", "inflated_revenue"],
         labels={
             "averageRating": "IMDb Rating",
-            "y": "Log10 of Box Office Revenue",
+            "y": "Logarithmic Box Office Revenue [$]",
             "inflated_revenue": "Box Office Revenue",
             "movie_name": "Movie Name",
         },
-        title="IMDb Rating vs. Box Office Revenues",
+        title="Relation Between IMDb Rating and Box Office Revenue",
         color="averageRating",  # Optional: Color by IMDb rating for better aesthetics
-        color_continuous_scale="Viridis",  # Color-blind friendly palette
+        color_continuous_scale="viridis_r",  # Color-blind friendly palette
         opacity=0.7,  # Make overlapping points more readable
     )
 
@@ -280,18 +281,12 @@ def plot_imdb_rating_vs_box_office_revenue(df_rating):
     fig.update_layout(
         xaxis=dict(
             title="IMDb Rating",
-            titlefont=dict(size=14),
-            tickfont=dict(size=12),
         ),
         yaxis=dict(
-            title="Log10 of Box Office Revenue",
-            titlefont=dict(size=14),
-            tickfont=dict(size=12),
+            title="Logarithmic Box Office Revenue [$]",
         ),
-        title=dict(
-            font=dict(size=20),
-            x=0.5,
-        ),
+        title_font=dict(family="Arial"),
+        title_x=0.5,
         template="plotly_white",
     )
 
@@ -315,8 +310,20 @@ def plot_imdb_rating_vs_box_office_revenue(df_rating):
 
 
 def plot_correlation_matrix(df_rating):
+
+    custom_labels = {
+        "averageRating": "Rating",
+        "inflated_revenue": "Revenue",
+        "numVotes": "Nbr of Votes",
+    }
     # Calculate correlation matrix
+    renamed_columns = [
+        custom_labels[col]
+        for col in df_rating[["averageRating", "inflated_revenue", "numVotes"]].columns
+    ]
     corr_matrix = df_rating[["averageRating", "inflated_revenue", "numVotes"]].corr()
+    corr_matrix.columns = renamed_columns
+    corr_matrix.index = renamed_columns
 
     # Create the heatmap
     fig = go.Figure(
@@ -331,17 +338,18 @@ def plot_correlation_matrix(df_rating):
             texttemplate="%{text}",
             hovertemplate="<b>x: %{x}</b><br><b>y: %{y}</b><br><b>Correlation: %{z:.2f}</b>",
             name="Correlation Score",
+            colorbar=dict(title="Correlation Score"),
         )
     )
 
     # Enforce square aspect ratio
     fig.update_layout(
-        title_text="Correlation Matrix: Rating vs. Revenue vs. Votes",
+        title_text="Correlation Between Rating, Revenue and Number of Votes",
         # xaxis_title="Features",
         # yaxis_title="Features",
         plot_bgcolor="white",
         paper_bgcolor="white",
-        font_color="black",
+        # font_color="black",
         title_x=0.5,
         xaxis=dict(showgrid=False, constrain="domain"),  # Fix x-axis to make it square
         yaxis=dict(
@@ -349,6 +357,7 @@ def plot_correlation_matrix(df_rating):
         ),  # Match y-axis scale to x-axis
         # add "Correlation score" name to the score bar
         coloraxis=dict(colorbar=dict(title="Correlation Score")),
+        title_font=dict(family="Arial"),
     )
 
     # Save the plot as an HTML file
@@ -367,8 +376,11 @@ def plot_genre_correlation(genre_corrs):
     # Colorblind-friendly colors
     # pearson_color = "#0072B2"  # Bluish
     # spearman_color = "#D55E00"  # Orangish
-    pearson_color = "#009E73"  # Greenish
-    spearman_color = "#CC79A7"  # Pinkish/Purplish
+
+    colors = px.colors.qualitative.Set2
+
+    pearson_color = colors[6]
+    spearman_color = colors[7]
 
     # Create bar traces
     pearson_trace = go.Bar(
@@ -377,8 +389,8 @@ def plot_genre_correlation(genre_corrs):
         orientation="h",
         name="Pearson",
         marker_color=pearson_color,
-        text=genre_corrs_sorted["Pearson"].round(3),  # Show values on bars
-        textposition="inside",  # Show value labels inside bars if they fit, otherwise auto
+        # text=genre_corrs_sorted["Pearson"].round(3),  # Show values on bars
+        # textposition="inside",  # Show value labels inside bars if they fit, otherwise auto
         hovertemplate="<b>Genre: %{y}</b><br>Pearson Correlation: %{x:.3f}",  # Custom hover text
     )
 
@@ -388,8 +400,8 @@ def plot_genre_correlation(genre_corrs):
         orientation="h",
         name="Spearman",
         marker_color=spearman_color,
-        text=genre_corrs_sorted["Spearman"].round(3),
-        textposition="inside",
+        # text=genre_corrs_sorted["Spearman"].round(3),
+        # textposition="inside",
         hovertemplate="<b>Genre: %{y}</b><br>Spearman Correlation: %{x:.3f}",
     )
 
@@ -398,31 +410,31 @@ def plot_genre_correlation(genre_corrs):
 
     # Update layout
     fig.update_layout(
-        title_text="Correlation between IMDb Ratings and Box Office Revenue by Genre",
+        title_text="Correlation between IMDb Ratings and Box Office Revenue per Genre",
         xaxis_title="Correlation Coefficient",
         yaxis_title="Genre",
         plot_bgcolor="white",
         paper_bgcolor="white",
-        font_color="black",
+        # font_color="black",
         xaxis=dict(
             showgrid=True,
             gridcolor="lightgray",
             zeroline=True,
             zerolinecolor="gray",
-            title_font=dict(size=18, color="black"),
         ),
         yaxis=dict(
             showgrid=False,
-            title_font=dict(size=18, color="black"),
             autorange="reversed",
         ),  # Reverse y-axis for better readability
-        title=dict(font=dict(size=22, color="black"), x=0.5),  # Centered title
-        legend=dict(title="Correlation Type", font=dict(size=12)),  # Clear legend title
+        legend=dict(title="Correlation Type"),  # Clear legend title
         barmode="group",  # Show Pearson and Spearman side-by-side
         bargap=0.2,  # Increase gap between Pearson and Spearman bars within a group
         bargroupgap=0.1,  # Increase gap between genre groups
         # Remove default margins
         margin=dict(l=0, r=0, t=40, b=0),  # Adjust top margin for title
+        title_font=dict(family="Arial"),
+        template="plotly_white",
+        title_x=0.5,
     )
 
     # Save the plot as an HTML file
@@ -470,7 +482,7 @@ def plot_3d_regression_plane(df_rating, model_multi):
         marker=dict(
             size=5,
             color=actual_z,  # Color by revenue for better insight
-            colorscale="Viridis",  # Color-blind friendly palette
+            colorscale="Viridis_r",  # Color-blind friendly palette
             opacity=0.7,
         ),
         name="Actual Data",
@@ -500,16 +512,16 @@ def plot_3d_regression_plane(df_rating, model_multi):
     fig.update_layout(
         scene=dict(
             xaxis=dict(title="IMDb Rating", titlefont=dict(size=12)),
-            yaxis=dict(title="Log10 of NumVotes", titlefont=dict(size=12)),
-            zaxis=dict(title="Log10 of Inflated Revenue", titlefont=dict(size=12)),
+            yaxis=dict(title="Logarithmic Number of Votes", titlefont=dict(size=12)),
+            zaxis=dict(title="Logarithmic Revenue [$]", titlefont=dict(size=12)),
         ),
         title=dict(
-            text="3D Visualization of Regression Model: IMDb Rating vs NumVotes vs Revenue",
+            text="Regression Model for IMDb Rating, Revenue and Number of Votes",
             x=0.5,
-            font=dict(size=16),
         ),
         margin=dict(l=0, r=0, b=0, t=40),  # Adjust margins for better fit
         template="plotly_white",
+        title_font=dict(family="Arial"),
     )
 
     # Save the plot as an HTML file
@@ -542,7 +554,7 @@ def plot_hexbin_regression_plane(df_rating):
     hexbin_trace = go.Histogram2d(  # Use Histogram2d for hexbins
         x=df_rating["averageRating"],
         y=df_rating["log_revenue"],
-        colorscale="Viridis",
+        colorscale="Viridis_r",
         nbinsx=50,
         nbinsy=50,
         showscale=True,
@@ -556,7 +568,7 @@ def plot_hexbin_regression_plane(df_rating):
     # Create the marginal distributions with reduced thickness
     x_hist = go.Histogram(
         x=df_rating["averageRating"],
-        marker_color="#f47835",  # Or any color you prefer
+        marker_color="#D3D3D3",  # Or any color you prefer
         opacity=0.75,
         # Adjusted thickness
         marker_line=dict(width=0.07, color="black"),
@@ -569,7 +581,7 @@ def plot_hexbin_regression_plane(df_rating):
 
     y_hist = go.Histogram(
         y=df_rating["log_revenue"],
-        marker_color="#f47835",
+        marker_color="#D3D3D3",
         opacity=0.75,
         marker_line=dict(width=0.07, color="black"),
         xaxis="x2",
@@ -582,22 +594,21 @@ def plot_hexbin_regression_plane(df_rating):
     layout = go.Layout(
         title_text="Relationship Between IMDb Ratings and Box Office Revenue",
         title_x=0.5,  # Center the title
+        title_font=dict(family="Arial"),
         xaxis_title="IMDb Rating",
-        yaxis_title="Log10(Box Office Revenue)",
+        yaxis_title="Logarithmic Box Office Revenue [$]",
         plot_bgcolor="white",
         paper_bgcolor="white",
         xaxis=dict(
             domain=[0, 0.93],
             showgrid=False,
             showticklabels=True,
-            title_font=dict(size=14, color="black"),
         ),  # Main x-axis
         yaxis=dict(
             domain=[0, 0.9],
             showgrid=True,
             gridcolor="lightgray",
             showticklabels=True,
-            title_font=dict(size=14, color="black"),
         ),  # Main y-axis
         xaxis2=dict(
             domain=[0.93, 1], showgrid=False, showticklabels=False
@@ -605,7 +616,7 @@ def plot_hexbin_regression_plane(df_rating):
         yaxis2=dict(
             domain=[0.9, 1], showgrid=False, showticklabels=False
         ),  # Marginal y-axis (right)
-        font_color="black",
+        # font_color="black",
         margin=dict(t=50, b=0, l=70, r=0),  # Adjusted margins for labels
         legend=dict(
             font=dict(size=12), orientation="h", y=1, x=0.9
@@ -613,6 +624,7 @@ def plot_hexbin_regression_plane(df_rating):
         # ... (annotations as before) ...
         barmode="overlay",
         bargap=0,
+        template="plotly_white",
     )
 
     # Add trendline and marginal plots last to overlay correctly
