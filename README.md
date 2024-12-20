@@ -205,7 +205,7 @@ The group work was smooth and well-coordinated. 😊
 | Movie 5                             | Can                    |
 | Movie 6                             | Said                   |
 | Website design                      | Nadezhda, Céline, Said |             
-| Adapting stories to overall style   | Céline, Nadezhda       |     
+| Adapting stories to overall style   | Céline                 |     
 | Notebook modularisation             | Said                   |              
 | README                              | Céline                 |      
 
