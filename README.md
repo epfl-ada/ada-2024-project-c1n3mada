@@ -21,7 +21,7 @@ Together they form the group **C1n3mada**. 😊
 - [Proposed additional datasets](#proposed-additional-datasets)
 - [Methods](#methods)
 - [Proposed timeline](#proposed-timeline)
-- [Organization within the team](#organization-within-the-team)
+- [Organisation within the team](#organisation-within-the-team)
 - [Website with the datastory](#website-with-the-datastory)
 
 ## Abstract
@@ -30,7 +30,7 @@ Together they form the group **C1n3mada**. 😊
 It’s time to take a break from whatever you’re doing and enjoy some movies. The lineup includes 5 movies, each telling its own story. Together, they provide insights into what influences a movie's box office revenue. 
 How do factors like rating, language, country, genre, director or even the release season affect a movie’s financial success? Through the selected films you will get detailed insights in a fun and engaging way. Each factor is analysed individually, with overlapping analyses across several factors, all together providing a comprehensive understanding by the end. In addition to learning about the influencing factors you will also discover possible reasons, as the movies also include explanatory elements.
 
-Sit back, hit play and let the stars of cinema guide you through this fascinating journey. C1n3mada hopes that you are ready for this unique experience! :popcorn:
+Sit back and let the stars of cinema guide you through this fascinating journey. C1n3mada hopes that you are ready for this unique experience! :popcorn:
 
 ## Setup
 
@@ -64,7 +64,6 @@ ada-2024-project-c1n3mada/
        ├── plot_utils.py                        # Script containing functions to plot some data
     ├── notebooks/                          # Directory containing the data pre-processing notebook
        ├── data_preparation.ipynb               # Jupyter notebook performing the whole data pre-processing (including the datasets merging)
-├── tests/                            # Directory containing tests for the project
 ├── requirements.txt/                 # File containing all requirements to run the current project
 ├── results.ipynb/                    # Jupyter notebook containing all the analysis and implementations
 ```
@@ -185,7 +184,7 @@ Code cleaning and final details — Deadline: 20.12.2024
   - Fix some last details
 ```
 
-## Organization within the team
+## Organisation within the team
 The following table shows the contribution of the team members to the individual task. <br> 
 The group work was smooth and well-coordinated. 😊
 
