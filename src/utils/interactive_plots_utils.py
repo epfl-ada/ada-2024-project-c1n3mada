@@ -17,6 +17,7 @@ SAVE_PATH_SHADES = "../c1n3mada-datastory/assets/plots/shades/"
 SAVE_PATH_TREASURE = "../c1n3mada-datastory/assets/plots/treasure/"
 SAVE_PATH_STARLIGHT = "../c1n3mada-datastory/assets/plots/starlight/"
 
+
 ## ----------INTERACTIVE PLOTS FOR THE MOVIE ECHO ---------- #
 def plot_num_of_movies_per_genre(df_rating):
     genre_counts = df_rating.explode("genres_list")["genres_list"].value_counts()
@@ -181,9 +182,7 @@ def plot_imdb_rating_vs_box_office_revenue(df_rating):
         plot_bgcolor="white",
         paper_bgcolor="white",
         font_color="black",
-        xaxis=dict(
-            showgrid=False, title_font=dict(size=18, color="black")
-        ),
+        xaxis=dict(showgrid=False, title_font=dict(size=18, color="black")),
         yaxis=dict(
             showgrid=True,
             gridcolor="lightgray",
@@ -193,9 +192,7 @@ def plot_imdb_rating_vs_box_office_revenue(df_rating):
         hovermode="closest",
     )
     fig.update_traces(
-        marker=dict(
-            size=8, line=dict(width=1, color="darkgray")
-        ),
+        marker=dict(size=8, line=dict(width=1, color="darkgray")),
     )
     fig.write_html(
         f"{SAVE_PATH_ECHO}imdb_rating_vs_box_office_revenue.html",
@@ -238,9 +235,7 @@ def plot_correlation_matrix(df_rating):
         title_text="Correlation Between Rating, Revenue and Number of Votes",
         title_x=0.5,
         xaxis=dict(showgrid=False, constrain="domain"),
-        yaxis=dict(
-            showgrid=False, scaleanchor="x", scaleratio=1
-        ),
+        yaxis=dict(showgrid=False, scaleanchor="x", scaleratio=1),
         coloraxis=dict(colorbar=dict(title="Correlation Score")),
         title_font=dict(family="Arial"),
     )
@@ -398,9 +393,7 @@ def plot_hexbin_regression_plane(df_rating):
         nbinsx=50,
         nbinsy=50,
         showscale=True,
-        colorbar=dict(
-            title="Number of Movies", len=0.5, y=0.25
-        ),
+        colorbar=dict(title="Number of Movies", len=0.5, y=0.25),
         hovertemplate="IMDb Rating: %{x:.2f}<br>Log Revenue: %{y:.2f}<br>Count: %{z}",
         name="bin",
     )
@@ -445,16 +438,10 @@ def plot_hexbin_regression_plane(df_rating):
             gridcolor="lightgray",
             showticklabels=True,
         ),
-        xaxis2=dict(
-            domain=[0.93, 1], showgrid=False, showticklabels=False
-        ),
-        yaxis2=dict(
-            domain=[0.9, 1], showgrid=False, showticklabels=False
-        ),
+        xaxis2=dict(domain=[0.93, 1], showgrid=False, showticklabels=False),
+        yaxis2=dict(domain=[0.9, 1], showgrid=False, showticklabels=False),
         margin=dict(t=50, b=0, l=70, r=0),
-        legend=dict(
-            font=dict(size=12), orientation="h", y=1, x=0.9
-        ),
+        legend=dict(font=dict(size=12), orientation="h", y=1, x=0.9),
         barmode="overlay",
         bargap=0,
         template="plotly_white",
@@ -996,7 +983,7 @@ def create_interactive_grid(mean_revenue_pivot, genre_year_pivot):
         config={"toImageButtonOptions": {"filename": "grid"}},
     )
     fig.show()
-    
+
 
 ## ----------INTERACTIVE PLOTS FOR THE MOVIE TONGUES----------#
 def top_10_movie_release_countries(top_countries):
@@ -1178,7 +1165,6 @@ def average_revenue_per_language_per_year(filtered_df):
             categoryarray=all_languages,
         ),
         template="plotly_white",
-        height=600,
         margin=dict(l=100, r=50, t=100, b=50),
         sliders=[
             {
@@ -1247,7 +1233,6 @@ def average_revenue_per_language_per_year(filtered_df):
                 y=all_languages,
                 x=[sorted_initial.get(lang, 0) for lang in all_languages],
                 orientation="h",
-                width=0.8,
                 marker=dict(
                     color=[language_color_map[language] for language in all_languages]
                 ),
@@ -1416,9 +1401,7 @@ def create_treemap(data, title, year, colors, mode="movies", top_n=10):
             lambda x: year_data[year_data["director"] == x]["movie_name"].tolist()
         )
 
-        top_data["movie_name"] = top_data["movie_name"].apply(
-            lambda x: ",".join(x)
-        )
+        top_data["movie_name"] = top_data["movie_name"].apply(lambda x: ",".join(x))
     else:
         raise ValueError("Invalid mode. Choose 'movies' or 'directors'.")
 
@@ -1660,9 +1643,7 @@ def race_plot(data, speed=1000):
         .apply(lambda group: group.nlargest(15, "cumulative_revenue"))
         .reset_index(drop=True)
     )
-    colors = (
-        px.colors.qualitative.Set2 * 10 + px.colors.qualitative.Set2[:7]
-    )
+    colors = px.colors.qualitative.Set2 * 10 + px.colors.qualitative.Set2[:7]
     color_discrete_map = {
         director: colors[i]
         for i, director in enumerate(cumulative_df["director"].unique())
