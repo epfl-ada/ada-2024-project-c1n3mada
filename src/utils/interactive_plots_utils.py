@@ -3,6 +3,7 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
+import seaborn as sns
 
 SAVE_PATH_SHADES = "../c1n3mada-datastory/assets/plots/shades/"
 SAVE_PATH_TONGUES = "../c1n3mada-datastory/assets/plots/tongues/"
@@ -35,7 +36,11 @@ def create_interactive_number_of_movies_per_genre_plot(genre_counts_top20):
         template="plotly_white",
         bargap=0.2,
         hovermode="closest",
+        title_font=dict(family="Arial"),
+        margin=dict(t=70, b=50, l=50, r=50),
+        title=dict(pad=dict(t=10, b=0)),
         showlegend=False,
+        title_x=0.5,
     )
 
     os.makedirs("interactive_plots/shades", exist_ok=True)
@@ -50,7 +55,7 @@ def create_interactive_number_of_genres_per_movie(num_genres_distribution):
     fig = px.bar(
         x=num_genres_distribution.index,
         y=num_genres_distribution.values,
-        title="Distribution of Number of Genres per Movie",
+        title="Number of Genres per Movie Distribution",
         labels={"x": "Number of Genres", "y": "Number of Movies"},
         color=num_genres_distribution.index.astype(str),
         color_discrete_sequence=px.colors.qualitative.Set2,
@@ -69,6 +74,14 @@ def create_interactive_number_of_genres_per_movie(num_genres_distribution):
         bargap=0.2,
         hovermode="closest",
         showlegend=False,
+        title_font=dict(family="Arial"),
+        margin=dict(t=70, b=50, l=50, r=50),
+        title=dict(pad=dict(t=10, b=0)),
+        title_x=0.5,
+        xaxis=dict(
+            title="Number of Genres",
+            tickvals=num_genres_distribution.index,
+        ),
     )
 
     fig.write_html(
@@ -86,7 +99,7 @@ def create_interactive_top_20_genres_with_highest_revenue(mean_genre_revenue):
         x=top_genres.index,
         y="mean",
         title=f"Average Revenue per Genre",
-        labels={"x": "Genre", "mean": "Average Box Office Revenue ($)"},
+        labels={"x": "Genre", "mean": "Average Box Office Revenue [$]"},
         color=top_genres.index,
         color_discrete_sequence=px.colors.qualitative.Set2,
         custom_data="count",
@@ -105,11 +118,15 @@ def create_interactive_top_20_genres_with_highest_revenue(mean_genre_revenue):
     # update layout
     fig.update_layout(
         xaxis_title="Genre",
-        yaxis_title="Average Box Office Revenue ($)",
+        yaxis_title="Average Box Office Revenue [$]",
         xaxis_tickangle=45,
         hovermode="closest",
         template="plotly_white",
         showlegend=False,
+        title_x=0.5,
+        title_font=dict(family="Arial"),
+        margin=dict(t=70, b=50, l=50, r=50),
+        title=dict(pad=dict(t=10, b=0)),
     )
 
     fig.write_html(
@@ -128,8 +145,8 @@ def create_interactive_top_20_genres_with_highest_revenue_2(mean_genre_revenue):
         top_genres,
         x=top_genres.index,
         y="mean",
-        title=f"Average Revenue per Genre (Top {top_n} Most Common Genres)",
-        labels={"x": "Genre", "mean": "Average Box Office Revenue ($)"},
+        title=f"Average Revenue per Genre for the Top {top_n} Most Common Genres",
+        labels={"x": "Genre", "mean": "Average Box Office Revenue [$]"},
         color=top_genres.index,
         color_discrete_sequence=px.colors.qualitative.Set2,
         custom_data="count",
@@ -148,11 +165,15 @@ def create_interactive_top_20_genres_with_highest_revenue_2(mean_genre_revenue):
     # update layout
     fig.update_layout(
         xaxis_title="Genre",
-        yaxis_title="Average Box Office Revenue ($)",
+        yaxis_title="Average Box Office Revenue [$]",
         xaxis_tickangle=45,
         hovermode="closest",
         template="plotly_white",
         showlegend=False,
+        title_x=0.5,
+        title_font=dict(family="Arial"),
+        margin=dict(t=70, b=50, l=50, r=50),
+        title=dict(pad=dict(t=10, b=0)),
     )
 
     fig.write_html(
@@ -267,16 +288,28 @@ def create_interactive_avg_revenue_per_num_genres(sorted_avg_revenue):
 
 def create_interactive_revenue_trends_over_time_heatmap(mean_revenue_pivot):
     mean_revenue_pivot = mean_revenue_pivot.replace(0, np.nan)
+
+    cubehelix_cmap = sns.color_palette("ch:s=-.2,r=.6", as_cmap=True)
+
+    plotly_cubehelix = [
+        [i / 255, f"rgb{tuple((np.array(cubehelix_cmap(i / 255)) * 255).astype(int))}"]
+        for i in range(256)
+    ]
     fig = px.imshow(
         mean_revenue_pivot.T,
-        labels=dict(x="Release Year", y="Genre", color="Average Revenue"),
+        labels=dict(x="Release Year", y="Genre", color="Average Revenue [$]"),
         title="Average Box Office Revenue per Genre Over Time",
-        color_continuous_scale="matter",
+        color_continuous_scale=plotly_cubehelix,
         aspect="auto",
     )
 
     fig.update_layout(
         xaxis=dict(tickangle=45),
+        title_x=0.5,
+        title_font=dict(family="Arial"),
+        margin=dict(t=70, b=50, l=50, r=50),
+        title=dict(pad=dict(t=10, b=0)),
+        template="plotly_white",
     )
     fig.write_html(
         f"{SAVE_PATH_SHADES}revenue_trends_over_time_heatmap.html",
@@ -330,8 +363,11 @@ def create_interactive_genre_ranking_over_time_racing_barplot(
     layout = go.Layout(
         title="Genre Ranking by Average Box Office Revenue per Decade",
         xaxis=dict(
-            title="Average Box Office Revenue ($)", range=[0, mean_revenue_pivot_decade.max().max() * 1.1]
+            title="Average Box Office Revenue [$]",
+            range=[0, mean_revenue_pivot_decade.max().max() * 1.1],
         ),
+        template="plotly_white",
+        title_x=0.5,
         yaxis=dict(autorange="reversed", title="Genres"),
         sliders=[
             {
@@ -441,7 +477,6 @@ def create_interactive_stacked_area_plot(genre_year_pivot):
 
     # update layout
     fig.update_layout(
-        title="Number of Movies per Genre Over Time",
         xaxis_title="Release Year",
         yaxis_title="Number of Movies",
         template="plotly_white",
@@ -449,6 +484,10 @@ def create_interactive_stacked_area_plot(genre_year_pivot):
         xaxis=dict(tickangle=45),
         yaxis=dict(gridcolor="rgba(200,200,200,0.5)"),
         hovermode="x unified",
+        title_x=0.5,
+        title_font=dict(family="Arial"),
+        margin=dict(t=70, b=50, l=50, r=50),
+        title=dict(text="Number of Movies per Genre Over Time", pad=dict(t=10, b=0)),
     )
 
     fig.write_html(
@@ -461,12 +500,19 @@ def create_interactive_stacked_area_plot(genre_year_pivot):
 
 
 def create_interactive_heatmap_genre_over_time(genre_year_pivot):
+    cubehelix_cmap = sns.color_palette("ch:s=-.2,r=.6", as_cmap=True)
+
+    plotly_cubehelix = [
+        [i / 255, f"rgb{tuple((np.array(cubehelix_cmap(i / 255)) * 255).astype(int))}"]
+        for i in range(256)
+    ]
+
     fig = go.Figure(
         data=go.Heatmap(
             z=genre_year_pivot.values,
             x=genre_year_pivot.columns,
             y=genre_year_pivot.index,
-            colorscale="matter",
+            colorscale=plotly_cubehelix,
             colorbar=dict(title="Number of Movies"),
             hovertemplate=(
                 "<b>Genre:</b> %{y}<br>"
@@ -478,11 +524,14 @@ def create_interactive_heatmap_genre_over_time(genre_year_pivot):
 
     # update layout
     fig.update_layout(
-        title="Number of Movies per Genre Over Time",
         xaxis_title="Release Year",
         yaxis_title="Genre",
         xaxis=dict(tickangle=45),
         template="plotly_white",
+        title_x=0.5,
+        title_font=dict(family="Arial"),
+        margin=dict(t=70, b=50, l=50, r=50),
+        title=dict(text="Number of Movies per Genre Over Time", pad=dict(t=10, b=0)),
     )
 
     fig.write_html(
@@ -493,6 +542,7 @@ def create_interactive_heatmap_genre_over_time(genre_year_pivot):
 
 
 def create_interactive_grid(mean_revenue_pivot, genre_year_pivot):
+    colors_possible = px.colors.qualitative.Set2
     genres = mean_revenue_pivot.columns.tolist()
     initial_genre = genres[0]
     fig = make_subplots(specs=[[{"secondary_y": True}]])
@@ -500,8 +550,8 @@ def create_interactive_grid(mean_revenue_pivot, genre_year_pivot):
         go.Scatter(
             x=mean_revenue_pivot.index,
             y=mean_revenue_pivot[initial_genre],
-            name="Average Box Office Revenue ($)",
-            line=dict(color="blue"),
+            name="Average Box Office Revenue [$]",
+            line=dict(color=colors_possible[3]),
         ),
         secondary_y=False,
     )
@@ -510,7 +560,7 @@ def create_interactive_grid(mean_revenue_pivot, genre_year_pivot):
             x=genre_year_pivot.index,
             y=genre_year_pivot[initial_genre],
             name="Number of Movies",
-            line=dict(color="red"),
+            line=dict(color=colors_possible[4]),
         ),
         secondary_y=True,
     )
@@ -518,10 +568,13 @@ def create_interactive_grid(mean_revenue_pivot, genre_year_pivot):
     fig.update_layout(
         title=f"Genre: {initial_genre}",
         xaxis_title="Year",
-        yaxis_title="Average Box Office Revenue ($)",
+        yaxis_title="Average Box Office Revenue [$]",
         yaxis2_title="Number of Movies",
         yaxis2=dict(showgrid=False),
         template="plotly_white",
+        title_x=0.5,
+        title_font=dict(family="Arial"),
+        margin=dict(t=70, b=50, l=50, r=50),
     )
 
     fig.update_layout(
