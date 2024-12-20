@@ -2,7 +2,7 @@ import plotly.graph_objects as go
 
 SAVE_PATH_SHADES = "../c1n3mada-datastory/assets/plots/shades/"
 
-def create_interactive_correlation_shades(df_correlation, title="Correlation between IMDb Ratings and Revenue by Genre"):
+def create_interactive_correlation_shades(df_correlation, title="Correlation between Number of Movies and Average Box Office Revenue per Genre over Time"):
     genre_corrs_sorted = df_correlation.sort_values("Pearson", ascending=True)
     x_pearson = genre_corrs_sorted["Pearson"]
     x_spearman = genre_corrs_sorted["Spearman"]
