@@ -423,26 +423,36 @@ def total_barplot(data):
         x="total_revenue_billion",
         y="director",
         text="total_revenue_billion",
-        title="Top 15 Directors by Box Office Revenue in Billions",
+        title="Top 15 Directors by Box Office Revenue",
         orientation="h",
-        labels={"total_revenue_billion": "Revenue (Billions)", "director": "Director"},
-        template="plotly_white",
+        labels={"total_revenue_billion": "Revenue [$]", "director": "Director"},
     )
 
     # Customize hover tooltips
     fig.update_traces(
         texttemplate="%{text:.2f}B",
+        # put a size for the values on the bars
+        textfont_size=10,
         textposition="outside",
         hovertemplate="<b>%{y}</b><br>Revenue: %{x:.2f}B",
         marker_color=px.colors.qualitative.Set2 + px.colors.qualitative.Set2[:7],
     )
 
+    max_value = df_top_dir["total_revenue_billion"].max() * 1.1
     # Remove unnecessary gridlines and adjust layout
     fig.update_layout(
-        xaxis_visible=False,  # Remove x-axis line
+        # xaxis_visible=False,  # Remove x-axis line
+        # add B for billion to the x-axis
+        xaxis=dict(
+            ticksuffix="B",  # Add "B" for billion
+            range=[0, max_value],  # Replace max_value with your desired maximum value
+        ),
         yaxis=dict(tickmode="linear"),
-        margin=dict(l=100, r=20, t=60, b=20),
+        margin=dict(l=120, r=30, t=60, b=20),
         title_x=0.5,
+        # margin=dict(t=70, b=50, l=50, r=50),  #
+        title=dict(pad=dict(t=10, b=0)),
+        template="plotly_white",
     )
 
     # Show interactive plot
