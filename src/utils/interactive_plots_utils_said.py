@@ -1,11 +1,13 @@
 import os
 import numpy as np
 import plotly.express as px
-import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 from scipy.stats import linregress
+import plotly.figure_factory as ff
+import plotly.graph_objects as go
+import numpy as np
 
-SAVE_PATH = "../c1n3mada-datastory/assets/plots/treasure/"
+SAVE_PATH_TREASURE = "../c1n3mada-datastory/assets/plots/treasure/"
 
 
 def plot_budget_and_revenue_distributions(df, colors, nbins=50):
@@ -69,7 +71,7 @@ def plot_budget_and_revenue_distributions(df, colors, nbins=50):
     fig.update_yaxes(title_text="Frequency", row=1, col=2)
 
     fig.write_html(
-        f"{SAVE_PATH}budget_and_revenue_distributions.html",
+        f"{SAVE_PATH_TREASURE}budget_and_revenue_distributions.html",
         config={
             "toImageButtonOptions": {"filename": "budget_and_revenue_distributions"}
         },
@@ -164,17 +166,12 @@ def plot_budget_revenue_over_time(df):
     )
 
     fig.write_html(
-        f"{SAVE_PATH}budget_revenue_over_time.html",
+        f"{SAVE_PATH_TREASURE}budget_revenue_over_time.html",
         config={"toImageButtonOptions": {"filename": "budget_revenue_over_time"}},
     )
 
     # Show the interactive plot
     fig.show()
-
-
-import plotly.figure_factory as ff
-import plotly.graph_objects as go
-import numpy as np
 
 
 # todooooooooo -> I don't understand this plotting
@@ -195,11 +192,7 @@ def plot_roi_distribution(
     Create an interactive histogram with optional KDE curve using Plotly.
     """
     # Transform data if specified
-    plot_data = (
-        transformation(data[column].dropna())
-        if transformation
-        else data[column].dropna()
-    )
+    plot_data = transformation(data[column]) if transformation else data[column]
 
     # Generate histogram
     hist, bin_edges = np.histogram(plot_data, bins=bins)
@@ -246,7 +239,7 @@ def plot_roi_distribution(
 
     # Write HTML file
     fig.write_html(
-        f"{SAVE_PATH}roi_distribution.html",
+        f"{SAVE_PATH_TREASURE}roi_distribution.html",
         config={"toImageButtonOptions": {"filename": f"roi_distribution"}},
     )
 
@@ -350,11 +343,54 @@ def plot_roi_by_genre(df):
     fig.add_vline(x=0, line_width=1, line_dash="dash", line_color="black")
 
     fig.write_html(
-        f"{SAVE_PATH}roi_by_genre.html",
+        f"{SAVE_PATH_TREASURE}roi_by_genre.html",
         config={"toImageButtonOptions": {"filename": f"roi_by_genre"}},
     )
 
     # Show the interactive plot
+    fig.show()
+
+
+def plot_roi_per_genre_boxplot(df_budget):
+    df_budget_exploded = df_budget.explode("genres_list")
+
+    # Filter for top 20 genres
+    genre_counts = df_budget_exploded["genres_list"].value_counts()
+    top_20_genres = genre_counts.head(20).index.tolist()
+    df_budget_filtered = df_budget_exploded[
+        df_budget_exploded["genres_list"].isin(top_20_genres)
+    ]
+
+    df_budget_filtered["log_ROI"] = np.log10(df_budget_filtered["ROI"] + 1)
+
+    # Create the interactive boxplot using Plotly
+    fig = px.box(
+        df_budget_filtered,
+        x="genres_list",
+        y="log_ROI",
+        color="genres_list",
+        category_orders={"genres_list": top_20_genres},
+        title="Distribution of ROI per Genre",
+        labels={"genres_list": "Genre", "log_ROI": "Log10(Return on Investment (ROI))"},
+        color_discrete_sequence=px.colors.qualitative.Set2,  # Set colors to Set2 palette
+    )
+
+    # Customize the layout
+    fig.update_layout(
+        xaxis_title="Genre",
+        yaxis_title="Log10(Return on Investment (ROI))",
+        xaxis=dict(tickangle=45),
+        showlegend=False,
+        template="plotly_white",
+        title_x=0.5,
+    )
+
+    # write the plot to an HTML file
+    fig.write_html(
+        f"{SAVE_PATH_TREASURE}roi_per_genre_boxplot.html",
+        config={"toImageButtonOptions": {"filename": "roi_per_genre_boxplot"}},
+    )
+
     fig.show()
 
 
@@ -383,7 +419,7 @@ def plot_budget_per_genre(df_budget_filtered, top_20_genres):
 
     # write the plot to an HTML file
     fig.write_html(
-        f"{SAVE_PATH}budget_per_genre.html",
+        f"{SAVE_PATH_TREASURE}budget_per_genre.html",
         config={"toImageButtonOptions": {"filename": "budget_per_genre"}},
     )
 
@@ -454,7 +490,7 @@ def plot_revenue_to_budget_ratio(df_budget):
 
     # write the plot to an HTML file
     fig.write_html(
-        f"{SAVE_PATH}revenue_to_budget_ratio.html",
+        f"{SAVE_PATH_TREASURE}revenue_to_budget_ratio.html",
         config={"toImageButtonOptions": {"filename": "revenue_to_budget_ratio"}},
     )
 
@@ -507,7 +543,7 @@ def plot_budget_correlation_per_genre(genre_corrs):
 
     # write the plot to an HTML file
     fig.write_html(
-        f"{SAVE_PATH}budget_correlation_per_genre.html",
+        f"{SAVE_PATH_TREASURE}budget_correlation_per_genre.html",
         config={"toImageButtonOptions": {"filename": "budget_correlation_per_genre"}},
     )
 
@@ -584,7 +620,7 @@ def plot_budget_vs_revenue(df_budget):
 
     # write the plot to an HTML file
     fig.write_html(
-        f"{SAVE_PATH}budget_vs_revenue_hexbin.html",
+        f"{SAVE_PATH_TREASURE}budget_vs_revenue_hexbin.html",
         config={"toImageButtonOptions": {"filename": "budget_vs_revenue_hexbin"}},
     )
 

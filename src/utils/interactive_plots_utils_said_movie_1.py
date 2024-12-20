@@ -6,7 +6,7 @@ import pandas as pd
 import statsmodels.api as sm
 from scipy import stats
 
-SAVE_PATH = "../c1n3mada-datastory/assets/plots/echo/"
+SAVE_PATH_ECHO = "../c1n3mada-datastory/assets/plots/echo/"
 
 
 def plot_num_of_movies_per_genre(df_rating):
@@ -57,7 +57,7 @@ def plot_num_of_movies_per_genre(df_rating):
 
     # Save the plot as an HTML file
     fig.write_html(
-        f"{SAVE_PATH}num_movies_per_genre.html",
+        f"{SAVE_PATH_ECHO}num_movies_per_genre.html",
         config={"toImageButtonOptions": {"filename": "num_movies_per_genre"}},
     )
 
@@ -131,7 +131,7 @@ def plot_imdb_rating_distribution(df_rating):
 
     # Save the plot as an HTML file
     fig.write_html(
-        f"{SAVE_PATH}imdb_rating_distribution.html",
+        f"{SAVE_PATH_ECHO}imdb_rating_distribution.html",
         config={"toImageButtonOptions": {"filename": "imdb_rating_distribution"}},
     )
 
@@ -192,7 +192,7 @@ def plot_box_office_revenue_distribution(df_rating):
 
     # Save the plot as an HTML file
     fig.write_html(
-        f"{SAVE_PATH}box_office_revenue_distribution.html",
+        f"{SAVE_PATH_ECHO}box_office_revenue_distribution.html",
         config={
             "toImageButtonOptions": {"filename": "box_office_revenue_distribution"}
         },
@@ -248,7 +248,7 @@ def plot_imdb_rating_vs_box_office_revenue_v1(df_rating):
 
     # Save the plot as an HTML file
     fig.write_html(
-        f"{SAVE_PATH}imdb_rating_vs_box_office_revenue.html",
+        f"{SAVE_PATH_ECHO}imdb_rating_vs_box_office_revenue.html",
         config={
             "toImageButtonOptions": {"filename": "imdb_rating_vs_box_office_revenue"}
         },
@@ -304,7 +304,7 @@ def plot_imdb_rating_vs_box_office_revenue(df_rating):
 
     # Save the plot as an HTML file
     fig.write_html(
-        f"{SAVE_PATH}imdb_rating_vs_box_office_revenue.html",
+        f"{SAVE_PATH_ECHO}imdb_rating_vs_box_office_revenue.html",
         config={
             "toImageButtonOptions": {"filename": "imdb_rating_vs_box_office_revenue"}
         },
@@ -353,7 +353,7 @@ def plot_correlation_matrix(df_rating):
 
     # Save the plot as an HTML file
     fig.write_html(
-        f"{SAVE_PATH}correlation_matrix.html",
+        f"{SAVE_PATH_ECHO}correlation_matrix.html",
         config={"toImageButtonOptions": {"filename": "correlation_matrix"}},
     )
 
@@ -427,7 +427,7 @@ def plot_genre_correlation(genre_corrs):
 
     # Save the plot as an HTML file
     fig.write_html(
-        f"{SAVE_PATH}genre_correlation.html",
+        f"{SAVE_PATH_ECHO}genre_correlation.html",
         config={"toImageButtonOptions": {"filename": "genre_correlation"}},
     )
 
@@ -514,7 +514,7 @@ def plot_3d_regression_plane(df_rating, model_multi):
 
     # Save the plot as an HTML file
     fig.write_html(
-        f"{SAVE_PATH}3d_regression_plane.html",
+        f"{SAVE_PATH_ECHO}3d_regression_plane.html",
         config={"toImageButtonOptions": {"filename": "3d_regression_plane"}},
     )
 
@@ -620,7 +620,7 @@ def plot_hexbin_regression_plane(df_rating):
 
     # Save the plot as an HTML file
     fig.write_html(
-        f"{SAVE_PATH}hexbin_regression_plane.html",
+        f"{SAVE_PATH_ECHO}hexbin_regression_plane.html",
         config={"toImageButtonOptions": {"filename": "hexbin_regression_plane"}},
     )
 
