@@ -30,8 +30,7 @@ Together they form the group **C1n3mada**. 😊
 It’s time to take a break from whatever you’re doing and enjoy some movies. The lineup includes 5 movies, each telling its own story. Together, they provide insights into what influences a movie's box office revenue. 
 How do factors like rating, language, country, genre, director or even the release season affect a movie’s financial success? Through the selected films you will get detailed insights in a fun and engaging way. Each factor is analysed individually, with overlapping analyses across several factors, all together providing a comprehensive understanding by the end. In addition to learning about the influencing factors you will also discover possible reasons, as the movies also include explanatory elements.
 
-You will be enjoying and learning at the same time. C1n3mada hopes that you are ready for this unique experience! :popcorn:
-
+Sit back, hit play and let the stars of cinema guide you through this fascinating journey. C1n3mada hopes that you are ready for this unique experience! :popcorn:
 
 ## Setup
 
@@ -54,14 +53,6 @@ ada-2024-project-c1n3mada/
 ├── data/                              # Directory containing all the data 
     ├── processed/                         # Directory containing data that has been processed
        ├── movies_processed.csv                # File containing the processed movies dataset used for the analysis
-├── notebooks/                         # Directory containing several notebooks used for data pre-processing or analysis
-    ├── data_preparation.ipynb             # Jupyter notebook performing the whole data pre-processing (including the datasets merging)
-    ├── initial_analysis.ipynb             # Jupyter notebook performing some initial analysis on the data
-    ├── Q1.ipynb                           # Jupyter notebook containing the implementation of movie 1
-    ├── Q2.ipynb                           # Jupyter notebook containing the implementation of movie 2
-    ├── Q3.ipynb                           # Jupyter notebook containing the implementation of movie 3
-    ├── Q4.ipynb                           # Jupyter notebook containing the implementation of movie 4
-    ├── Q5.ipynb                           # Jupyter notebook containing the implementation of movie 5
 ├── src/                              # Directory containing some main source code scripts 
     ├── utils/                             # Directory containing some utils scripts
        ├── analysis_utils.py                    # Script containing functions to simplify several analysis aspects
@@ -71,6 +62,8 @@ ada-2024-project-c1n3mada/
        ├── interactive_plots_utils.py           # Script containing functions to create all the interactive plots
        ├── merge_utils.py                       # Script containing functions to merge the different datasets
        ├── plot_utils.py                        # Script containing functions to plot some data
+    ├── notebooks/                          # Directory containing the data pre-processing notebook
+       ├── data_preparation.ipynb               # Jupyter notebook performing the whole data pre-processing (including the datasets merging)
 ├── tests/                            # Directory containing tests for the project
 ├── requirements.txt/                 # File containing all requirements to run the current project
 ├── results.ipynb/                    # Jupyter notebook containing all the analysis and implementations
@@ -145,7 +138,7 @@ This part provides an overview of the different methods that are used to impleme
 
 **Movie 2:** For the initial exploration the release country and language names were extracted and some exploratory prints were performed. All languages for each movie are kept since their order is random. For the country, only the first one, namely the release country, is considered. The most common countries and languages are plotted in a bar chart. To investigate the influence of the language, the languages with the highest average box office revenue are plotted in a bar chart. Regression analysis as well as ANOVA are performed to analyse the statistical significance. The same methods are used to analyse the influence of the country. The average box office revenues per country are visualised on a map. Additionally, the average box office revenues per language are plotted over the years to identify notable trends or events. To analyse the impact of multilinguality on the box office revenue, box plots display the distribution of revenue based on the number of languages in a movie.
 
-**Movie 3:** TODOOO Some descriptive statistics, along with bar plots, are used to determine the average and median revenue per genre. To analyse the distribution of revenues within each genre, statistics such as the interquartile range, variance, and skewness are used. The visualisations are done with box plots and violin plots. A line plot is used to display the change in revenue per genre over time. Pearson and Spearman correlation coefficients are also used.
+**Movie 3:** Bar plots show the number of movies per genre and the distribution of number of genres per movie. The average box office revenues per genre are shown with box plots as well as a bar plot. A heatmap is used to display the revenue per genre over time. A plot evolving per decade shows the genre box office rankings over time. An interactive line chart visualizes the average box office revenue and the number of movies produced for a selected genre over time. Pearson and Spearman correlation coefficients are also displayed.
 
 **Movie 4:** The maximum box office revenues per year are plotted over time using a line plot. Bar plots are used to displays the top directors based on box office revenue and the number of movies they directed. An evolving bar plot shows the cumulative revenue of directors over the years. Two evolving treemaps illustrate the top movies and directors in terms of box office revenues over the years.
 
