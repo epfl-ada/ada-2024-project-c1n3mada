@@ -3,6 +3,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from raceplotly.plots import barplot
 import pandas as pd
+import numpy as np
 def create_treemap(data, title, year,colors, mode="movies", top_n=10):
     """
     Create a treemap for a given year.
@@ -57,7 +58,7 @@ def create_treemap(data, title, year,colors, mode="movies", top_n=10):
     return fig
 
 
-def create_animated_treemap(data, title,colors,speed=1000,mode="movies", top_n=10, start_year=None,name="top_15_directors_movie_count.html"):
+def create_animated_treemap(data, title,colors,speed=2000,mode="movies", top_n=10, start_year=None,name="top_15_directors_movie_count.html"):
     """
     Create an animated treemap with a slider for each year.
 
@@ -100,7 +101,7 @@ def create_animated_treemap(data, title,colors,speed=1000,mode="movies", top_n=1
                     "method": "animate",
                 },
                 {
-                    "args": [[None], {"frame": {"duration": 100, "redraw": True}, "mode": "immediate", "transition": {"duration": 100}}],
+                    "args": [[None], {"frame": {"duration": 300, "redraw": True}, "mode": "immediate", "transition": {"duration": 300}}],
                     "label": "Pause",
                     "method": "animate",
                 },
@@ -137,7 +138,8 @@ def create_animated_treemap(data, title,colors,speed=1000,mode="movies", top_n=1
         config={"toImageButtonOptions": {"filename": name}},)
     
 def interactive_log_revenue(data):
-    yearly_inflated_avg = data.groupby("release_year")["log_inflated_revenue"].mean()
+    yearly_inflated_avg = data.groupby("release_year")["inflated_revenue"].max()
+    yearly_inflated_avg = np.log10(yearly_inflated_avg)
     # implement plotly interactive plot
     fig = go.Figure()
     fig.add_trace(go.Scatter(
@@ -171,6 +173,50 @@ def interactive_log_revenue(data):
         f"{SAVE_PATH_DIR}log_max_box_office_revenue_over_time.html",
         config={"toImageButtonOptions": {"filename": "log_max_box_office_revenue_over_time"}},
     )
+def interactive_log_revenue(data):
+    # Calculate max inflated revenue and log values
+    yearly_data = data.groupby(["release_year", "movie_name", "director"])["inflated_revenue"].max().reset_index()
+    yearly_data["log_revenue"] = np.log10(yearly_data["inflated_revenue"])
+    
+    # Find the movie with max revenue per year
+    yearly_max = yearly_data.loc[yearly_data.groupby("release_year")["inflated_revenue"].idxmax()]
+
+    # Create the interactive Plotly figure
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=yearly_max["release_year"], 
+        y=yearly_max["log_revenue"],
+        mode='lines+markers',
+        marker=dict(size=8, color=px.colors.qualitative.Set2[0]),
+        line=dict(width=2),
+        name='Log Max Box Office Revenue',
+        hovertemplate="<b>Year:</b> %{x}<br><b>Log Revenue:</b> %{y:.2f}<br><b>Movie:</b> %{customdata[0]}<br><b>Director:</b> %{customdata[1]}<extra></extra>",
+        customdata=np.stack((yearly_max["movie_name"], yearly_max["director"]), axis=-1)  # Attach movie and director to hover
+    ))
+
+    # Update layout
+    fig.update_layout(
+        title="Log Max Box Office Revenue Over Time",
+        xaxis_title="Release Year",
+        yaxis_title="Log Box Office Revenue",
+        template="plotly",
+        hovermode="x unified",
+        margin=dict(l=40, r=40, t=40, b=40),
+        title_x=0.5,
+    )
+    # Set x-axis range and rotate ticks
+    fig.update_xaxes(range=[yearly_max["release_year"].min(), yearly_max["release_year"].max()])
+    fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
+
+    # Show the figure
+    fig.show()
+
+    # Save the figure as an HTML file
+    fig.write_html(
+        f"{SAVE_PATH_DIR}log_max_box_office_revenue_over_time.html",
+        config={"toImageButtonOptions": {"filename": "log_max_box_office_revenue_over_time"}},
+    )
+
     
 def barplot_top_directors_movie_count(data):
     df_count = data
