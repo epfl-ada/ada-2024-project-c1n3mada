@@ -208,6 +208,7 @@ def barplot_top_directors_movie_count(data):
         config={"toImageButtonOptions": {"filename": "top_10_movie_release_countries"}},)
 
 def race_plot(data, speed=1000):
+    
     df_race = data.sort_values(by="release_year")
     df_race["cumulative_revenue"] = df_race.groupby("director")["inflated_revenue"].cumsum()
 
@@ -261,6 +262,8 @@ def race_plot(data, speed=1000):
 def total_barplot(data):
     # Create interactive bar chart
     df_top_dir = data
+    df_top_dir["total_revenue_billion"] = df_top_dir["total_revenue"] / 1e9
+    df_top_dir = df_top_dir.sort_values(by="total_revenue_billion", ascending=True).head(15)
     fig = px.bar(
         df_top_dir,
         x="total_revenue_billion",
@@ -278,7 +281,7 @@ def total_barplot(data):
         texttemplate='%{text:.2f}B',
         textposition='outside',
         hovertemplate="<b>%{y}</b><br>Revenue: %{x:.2f}B",
-        marker_color=px.colors.qualitative.Set2+px.colors.qualitative.Set2[:2]
+        marker_color=px.colors.qualitative.Set2+px.colors.qualitative.Set2[:7]
     )
 
     # Remove unnecessary gridlines and adjust layout
