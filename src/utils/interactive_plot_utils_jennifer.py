@@ -98,6 +98,10 @@ def create_animated_treemap(
     Returns:
         Plotly figure with animation
     """
+
+    # transform year to int
+    data["release_year"] = data["release_year"].astype(int)
+
     unique_years = sorted(data["release_year"].unique())
 
     # Set start year to middle year if not provided
@@ -309,13 +313,16 @@ def barplot_top_directors_movie_count(data):
         labels={"director": "Director", "movie_count": "Number of Movies"},
         template="plotly_white",
         color="movie_count",  # Color based on movie count
+        # put set2 as color
         color_continuous_scale=px.colors.qualitative.Set2,
+        # color_discrete_sequence=px.colors.qualitative.Set2,
     )
 
     # Customize the trace
     fig.update_traces(
         texttemplate="%{text}",  # Display numbers on bars
         textposition="outside",  # Position labels above the bars
+        textfont_size=10,  # Set font size for labels
         hovertemplate="<b>%{x}</b><br>Number of Movies: %{y}",  # Customize hover tooltip
     )
 
